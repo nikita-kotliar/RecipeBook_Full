@@ -66,3 +66,8 @@ textarea {
 .submitBtn:hover:not(:disabled) {
   background-color: #45a049;
 }
+
+.label {
+  display: flex;
+  flex-direction: column;
+}

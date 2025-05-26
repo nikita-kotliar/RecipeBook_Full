@@ -1,7 +1,7 @@
 import axios from "axios";
 import { logOutReducer, setToken } from "./redux/auth/slice.js";
 
-// const BASE_URL = "http://localhost:3000";
+//const BASE_URL = "http://localhost:3000";
 const BASE_URL = "https://recipebook-uicq.onrender.com";
 
 let store;
@@ -23,11 +23,10 @@ export const fetchRefreshToken = async () => {
   return data;
 };
 
+
 instance.interceptors.request.use(
   (config) => {
     const state = store.getState();
-    // console.log("TOKEN FROM REDUX:", state.auth.token);
-
     const token = state.auth.token;
     if (token) {
       config.headers["Authorization"] = "Bearer " + token;
@@ -35,7 +34,7 @@ instance.interceptors.request.use(
     return config;
   },
   (error) => {
-    Promise.reject(error);
+    return Promise.reject(error); 
   }
 );
 
@@ -46,19 +45,26 @@ instance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
         const response = await fetchRefreshToken();
-        store.dispatch(setToken(response.token));
+        const newToken = response.token;
+
+        store.dispatch(setToken(newToken));
+
+        // Додай новий токен до headers вручну
+        originalRequest.headers["Authorization"] = "Bearer " + newToken;
+
         return instance(originalRequest);
       } catch (error) {
-        if (error.response.status === 401) {
+        if (error.response?.status === 401) {
           store.dispatch(logOutReducer());
         }
-        // return Promise.reject(error);
+        return Promise.reject(error); // <-- обов'язково
       }
     }
+
     return Promise.reject(error);
   }
 );

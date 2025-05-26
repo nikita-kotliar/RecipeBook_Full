@@ -1,23 +1,34 @@
-// CubeScene.jsx
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei';
+import { useRef } from 'react'
+import { useFrame } from '@react-three/fiber'
 
-function Cube() {
+function SpinningBox() {
+  const meshRef = useRef()
+
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += 0.01
+    }
+  })
+
   return (
-    <mesh rotation={[0.4, 0.2, 0]}>
+    <mesh ref={meshRef} position={[0, 0, 0]}>
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color="orange" />
+      <meshStandardMaterial color="#83A603" />
     </mesh>
-  );
+  )
 }
 
 export default function CubeScene() {
   return (
-    <Canvas style={{ height: "100vh" }}>
-      <ambientLight />
-      <pointLight position={[10, 10, 10]} />
-      <Cube />
-      <OrbitControls />
-    </Canvas>
-  );
+    <div style={{ height: '400px', width: '100%' }}>
+      <Canvas camera={{ position: [3, 3, 3] }}>
+        <ambientLight />
+        <pointLight position={[10, 10, 10]} />
+        <SpinningBox />
+        <OrbitControls />
+      </Canvas>
+    </div>
+  )
 }

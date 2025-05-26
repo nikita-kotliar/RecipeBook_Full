@@ -175,6 +175,31 @@
   display: none;
 }
 
+
+.favoriteButtonContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.loaderOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.6); /* Slightly transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.favoriteButton {
+  position: relative;
+  z-index: 5; /* Ensure the button itself is always clickable and above the loader */
+}
+
+
 @media screen and (min-width: 768px) {
   .langButton {
     font-size: 18px;

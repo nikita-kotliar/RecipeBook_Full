@@ -15,11 +15,11 @@ import {
 import { setRecipes } from "../../redux/recipes/slice.js";
 import { useTranslation } from "react-i18next";
 import LoaderComponent from "../LoaderComponent/LoaderComponent.jsx";
+import Logo from "../Logo/Logo"
+import UserBar from "../UserBar/UserBar.jsx";
 
 const RecipesItem = lazy(() => import("../RecipesItem/RecipesItem.jsx"));
-const AddRecipeModal = lazy(
-  () => import("../AddRecipeModal/AddRecipeModal.jsx")
-);
+const AddRecipeModal = lazy(() => import("../AddRecipeModal/AddRecipeModal.jsx"));
 
 const RecipeList = () => {
   const { t } = useTranslation();
@@ -32,13 +32,14 @@ const RecipeList = () => {
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [deletingRecipeId, setDeletingRecipeId] = useState(null);
+  const [isFetchingRecipes, setIsFetchingRecipes] = useState(false);
 
   const handleDeleteRecipe = async (id) => {
     try {
       setDeletingRecipeId(id);
       await deleteRecipe(id);
       const all = await getAllRecipes();
-      dispatch(setRecipes(all.data)); // Просто оновлюємо список з бекенду
+      dispatch(setRecipes(all.data));
     } catch (err) {
       console.error("Delete failed:", err);
     } finally {
@@ -58,7 +59,7 @@ const RecipeList = () => {
       const updated = [...recipes];
       updated[index] = updatedRecipe.data;
 
-      dispatch(setRecipes(updated)); // Сортуємо рецепти за оновленими даними
+      dispatch(setRecipes(updated));
     } catch (err) {
       console.error("Favorite toggle failed:", err);
     }
@@ -67,6 +68,7 @@ const RecipeList = () => {
   const handleFavoritesToggle = async () => {
     const newValue = !showFavoritesOnly;
     setShowFavoritesOnly(newValue);
+    setIsFetchingRecipes(true);
 
     try {
       if (newValue) {
@@ -78,6 +80,8 @@ const RecipeList = () => {
       }
     } catch (err) {
       console.error("Failed to load recipes:", err);
+    } finally {
+      setIsFetchingRecipes(false);
     }
   };
 
@@ -112,6 +116,20 @@ const RecipeList = () => {
   return (
     <>
       <div className={css.controls}>
+        <Logo className={css.logo} />
+        <button
+          onClick={handleFavoritesToggle}
+          className={css.favoriteToggleBtn}
+        >
+          {showFavoritesOnly ? t("showAllRecipes") : t("showFavoritesOnly")}
+        </button>
+
+        <button onClick={() => setShowAddModal(true)} className={css.addButton}>
+          {t("addNewRecipe")}
+        </button>
+        <UserBar className={css.userBar} />
+      </div>
+      <div>
         <input
           type="text"
           placeholder={t("searchPlaceholder")}
@@ -128,20 +146,13 @@ const RecipeList = () => {
           <option value="title">{t("searchByTitle")}</option>
           <option value="ingredients">{t("searchByIngredients")}</option>
         </select>
-
-        <button
-          onClick={handleFavoritesToggle}
-          className={css.favoriteToggleBtn}
-        >
-          {showFavoritesOnly ? t("showAllRecipes") : t("showFavoritesOnly")}
-        </button>
-
-        <button onClick={() => setShowAddModal(true)} className={css.addButton}>
-          {t("addNewRecipe")}
-        </button>
       </div>
 
-      {filteredRecipes.length === 0 ? (
+      {isFetchingRecipes ? (
+        <div className={css.loaderWrapper}>
+          <LoaderComponent />
+        </div>
+      ) : filteredRecipes.length === 0 ? (
         <div className={css.messageContainer}>
           <h2 className={css.noRecipes}>{t("noRecipesFound")}</h2>
         </div>
@@ -158,17 +169,11 @@ const RecipeList = () => {
                     onToggleFavorite={handleToggleFavorite}
                     onRecipeUpdated={(res) => {
                       const updated = recipes.map((r) =>
-                        (r.id || r._id) === id ? res.data : r
+                        (r.id || r._id) === res.id ? res : r
                       );
                       dispatch(setRecipes(updated));
                     }}
-                    isLoading={deletingRecipeId === id}
                   />
-                  {deletingRecipeId === id && (
-                    <div className={css.loaderOverlay}>
-                      <LoaderComponent />
-                    </div>
-                  )}
                 </div>
               </li>
             );
@@ -179,9 +184,8 @@ const RecipeList = () => {
       {showAddModal && (
         <AddRecipeModal
           onClose={() => setShowAddModal(false)}
-          onRecipeAdded={(res) => {
-            const newRecipe = res.data;
-            dispatch(setRecipes([...recipes, newRecipe]));
+          onRecipeAdded={(newRecipe) => {
+            dispatch(setRecipes([...recipes, newRecipe])); // додати рецепт до списку
             setShowAddModal(false);
           }}
         />

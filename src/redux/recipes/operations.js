@@ -33,17 +33,30 @@ export const dateToLocal = (ms) => {
 //===================== ADD RECIPE =====================
 export const addRecipeRecord = createAsyncThunk(
   "recipes/addRecipe",
-  async (formData, thunkAPI) => {
+  async ({ formData, image }, thunkAPI) => {
     try {
-      formData.date = String(dateToUTC(formData.date).getTime());
+      // Створення рецепта
       const response = await createRecipe(formData);
-      response.data.data.date = dateToLocal(response.data.data.date);
+      const recipeId = response.data.data.id;
+
+      // Якщо є фото, оновлюємо його
+      if (image) {
+        const imgForm = new FormData();
+        imgForm.append("image", image);
+        const imgRes = await updateRecipeImage(recipeId, imgForm);
+        response.data.data.image = imgRes.data.image;
+      }
+
+      // Повертаємо новий рецепт
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data || error.message);
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
   }
 );
+
+
+
 
 //=================== UPDATE RECIPE ====================
 export const updateRecipeRecord = createAsyncThunk(
@@ -131,49 +144,6 @@ export const fetchRecipesDetailsById = createAsyncThunk(
 
 //=================== UPLOAD PHOTO =====================
 
-// export const uploadRecipeImage = createAsyncThunk(
-//   "recipes/image",
-//   async (formData, thunkAPI) => {
-//     try {
-//       const response = await updateRecipeImage(formData);
-//       return response.data.image;
-//     } catch (err) {
-//       return thunkAPI.rejectWithValue(err.response.data.data.message);
-//     }
-//   }
-// );
-// export const updateRecipeImage = async (formData) => {
-//   return axios.patch('http://localhost:3000/recipes/image', formData, {
-//     headers: {
-//       'Content-Type': 'multipart/form-data',
-//       Authorization: `Bearer ${localStorage.getItem('token')?.replace(/"/g, '')}`,
-//     },
-//   });
-// };
-
-// export const uploadRecipeImage = createAsyncThunk(
-//   "recipes/image",
-//   async ({ formData, recipeId }, thunkAPI) => {
-//     console.log("Uploading image for recipe ID:", recipeId);
-//     console.log("Image upload response:", response.data);
-//     // console.log("Image upload formData:", formData);
-
-//     try {
-//       const response = await axios.patch(
-//         `https://recipebook-uicq.onrender.com/recipes/${recipeId}/image`,
-//         formData,
-//         {
-//           headers: {
-//             "Content-Type": "multipart/form-data",
-//           },
-//         }
-//       );
-//       return response.data.image;
-//     } catch (err) {
-//       return thunkAPI.rejectWithValue(err.response.data.data.message);
-//     }
-//   }
-// );
 
 export const uploadRecipeImage = createAsyncThunk(
   "recipes/uploadRecipeImage",

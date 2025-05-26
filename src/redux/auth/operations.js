@@ -3,12 +3,14 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   logInUser,
   logOutUser,
-  // registerUser,
   requestUserInfo,
   updateUserInfo,
   updateUserPhoto,
-} from "../../api/auth.js";
+  registerUser,
+} from "../../api/auth.js"; // переконайся, що шлях правильний
+
 import { fetchRefreshToken } from "../../axios.js";
+
 
 //====================== SIGN IN ======================
 
@@ -17,6 +19,7 @@ export const logIn = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const res = await logInUser(userData);
+      console.log("Відповідь від сервера:", res);
       return res.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data.data.message);
@@ -31,7 +34,7 @@ export const signUp = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       // const resSignUp = await registerUser(userData);
-      const resSignIn = await logInUser(userData);
+      const resSignIn = await registerUser(userData);
       return resSignIn.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data.data.message);
@@ -50,7 +53,6 @@ export const logOut = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 });
 
 //================= USER INFORMATION ===================
-
 export const getUserInfo = createAsyncThunk(
   "auth/info",
   async (_, thunkAPI) => {
@@ -62,6 +64,7 @@ export const getUserInfo = createAsyncThunk(
     }
   }
 );
+
 
 //================== UPDATE PROFILE ====================
 
@@ -104,14 +107,3 @@ export const refreshToken = createAsyncThunk(
     }
   }
 );
-//=====================================================
-
-//TODO: export const googleLogIn = createAsyncThunk();
-
-//=====================================================
-
-//TODO: export const forgetPassword = createAsyncThunk();
-
-//=====================================================
-
-//TODO: export const resetPassword = createAsyncThunk();

@@ -7,4 +7,13 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
+  optimizeDeps: {
+    include: [
+      '@react-three/drei',
+      '@react-three/fiber',
+      'three',
+      'zustand',
+      'react-use-gesture'
+    ]
+  },
 });

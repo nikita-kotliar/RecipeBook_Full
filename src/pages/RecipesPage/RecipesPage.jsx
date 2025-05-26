@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 // import RecipeDetailedInfo from "../../components/RecipeDetailedInfo/RecipeDetailedInfo.jsx";
 import RecipesList from "../../components/RecipesList/RecipesList";
-import UserBar from "../../components/UserBar/UserBar.jsx";
+
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,6 +12,7 @@ import {
 import { useTour } from "@reactour/tour";
 import { selectIsNewUser } from "../../redux/auth/selectors.js";
 import { setNewUser } from "../../redux/auth/slice.js";
+import css from "./RecipesPage.module.css";
 
 const RecipePage = () => {
   const { setIsOpen } = useTour();
@@ -38,11 +39,11 @@ const RecipePage = () => {
   }, [isNewUser, setIsOpen, dispatch]);
 
   return (
-    <>
+    <div className={css.recipePage}>
       <RecipesList /> {/* Головна інформація про рецепти */}
-      <UserBar /> {/* Головна інформація про рецепти */}
+       {/* Головна інформація про рецепти */}
       {/* <RecipeDetailedInfo /> Детальна інформація про конкретний рецепт */}
-    </>
+    </div>
   );
 };
 

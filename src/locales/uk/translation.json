@@ -1,4 +1,7 @@
 {
+  "enterNewPassword": "Enter new password",
+  "setPassword": "Set a password",
+  "leaveBlankToKeepOld": "Leave empty to keep current password",
   "addNewRecipe": "Додати новий рецепт",
   "title": "Назва",
   "imageURL": "Посилання на зображення",
@@ -21,6 +24,7 @@
   "checkTracker": "Ввійти",
   "signInTitle": "Вхід",
   "signIn": "Увійти",
+  "editRecipe": "Редагування рецепту",
   "continueWithGoogle": "Продовжити з Google",
   "userCountText": "Ти наш найкращий користувач",
   "habitDrive": "Не потрібно все запам'ятовувати",

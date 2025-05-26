@@ -25,11 +25,13 @@ const SignUpForm = () => {
     password: Yup.string()
       .min(5, t("passwordTooShort"))
       .max(25, t("passwordTooLong"))
-      .required(t("passwordRequired")),
+      .required(t("passwordRequired"))
+      .matches(/^[A-Za-z]*$/, t("passwordOnlyEnglish")),
     repeatpassword: Yup.string()
-      .oneOf([Yup.ref("password")], t("repeatPasswordMustMatch"))
+      .oneOf([Yup.ref("password"), null], t("repeatPasswordMustMatch"))
       .required(t("repeatPasswordRequired")),
   });
+  
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -111,6 +113,7 @@ const SignUpForm = () => {
             ) : (
               ""
             )}
+            
           </label>
 
           <label className={styles.signUpLabel}>
@@ -173,3 +176,60 @@ const SignUpForm = () => {
 };
 
 export default SignUpForm;
+
+
+// import React, { useState } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { signUp } from "../../redux/auth/operations";
+// import { selectIsLoading } from "../../redux/auth/selectors";
+
+// const SignUpForm = () => {
+//   const dispatch = useDispatch();
+//   const isLoading = useSelector(selectIsLoading);
+
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [showVerification, setShowVerification] = useState(false);
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       await dispatch(signUp({ email, password })).unwrap();
+//       setShowVerification(true); // показуємо модалку з кодом підтвердження
+//     } catch (error) {
+//       alert(error || "Помилка реєстрації");
+//     }
+//   };
+
+//   return (
+//     <>
+//       {!showVerification ? (
+//         <form onSubmit={handleSubmit}>
+//           <h2>Реєстрація</h2>
+//           <input
+//             type="email"
+//             placeholder="Email"
+//             value={email}
+//             onChange={(e) => setEmail(e.target.value)}
+//             required
+//           />
+//           <input
+//             type="password"
+//             placeholder="Пароль"
+//             value={password}
+//             onChange={(e) => setPassword(e.target.value)}
+//             required
+//             minLength={5}
+//           />
+//           <button type="submit" disabled={isLoading}>
+//             Зареєструватись
+//           </button>
+//         </form>
+//       ) : (
+//         <VerificationModal email={email} />
+//       )}
+//     </>
+//   );
+// };
+
+// export default SignUpForm;

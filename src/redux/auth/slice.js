@@ -30,6 +30,14 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    setCredentialsGoogle: (state, action) => {
+      const { user, accessToken } = action.payload;
+      state.user = user;
+      state.token = accessToken;
+      state.isLoggedIn = true;
+      toast.success(`Welcome, ${user.name || user.email}!`);
+    },
+    
   },
   extraReducers: (builder) => {
     builder

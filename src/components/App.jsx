@@ -12,12 +12,13 @@ import { setLoggedIn } from "../redux/auth/slice.js";
 import PrivateRoute from "./PrivateRoute.jsx";
 import RestrictedRoute from "./RestrictedRoute.jsx";
 import SharedLayout from "./SharedLayout/SharedLayout.jsx";
-
-// Нові компоненти
-const HomePage = lazy(() => import("../pages/HomePage/HomePage"));
+const HomePage = lazy(() => import("../pages/HomePage/HomePage.jsx"));
 const SignInPage = lazy(() => import("../pages/SignInPage/SignInPage.jsx"));
 const SignUpPage = lazy(() => import("../pages/SignUpPage/SignUpPage.jsx"));
 const RecipesPage = lazy(() => import("../pages/RecipesPage/RecipesPage.jsx"));
+const GoogleSuccess = lazy(
+  () => import("../components/GoogleSuccess/GoogleSuccess.jsx")
+);
 const NotFoundPage = lazy(
   () => import("../pages/NotFoundPage/NotFoundPage.jsx")
 );
@@ -44,6 +45,7 @@ function App() {
     <SharedLayout>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/google-success" element={<GoogleSuccess />} />
 
         <Route
           path="/signup"
@@ -57,13 +59,12 @@ function App() {
             <RestrictedRoute redirectTo="/recipes" component={<SignInPage />} />
           }
         />
-
         <Route
           path="/recipes/*"
           element={
             <PrivateRoute redirectTo="/signin" component={<RecipesPage />} />
           }
-        />
+        />        
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

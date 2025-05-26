@@ -1,41 +1,87 @@
 import { useState } from "react";
-import css from "./AddRecipeModal.module.css";
-import { createRecipe } from "../../api/recipes.js";
+import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { createRecipe } from "../../api/recipes.js";
+import { addRecipeRecord } from "../../redux/recipes/operations.js";
+import css from "./AddRecipeModal.module.css";
+import svg from "../../assets/icons.svg";
 
 const AddRecipeModal = ({ onClose, onRecipeAdded }) => {
   const { t } = useTranslation();
-  const [title, setTitle] = useState("");
-  const [image, setImage] = useState("");
-  const [ingredients, setIngredients] = useState("");
-  const [instructions, setInstructions] = useState("");
-  const [notes, setNotes] = useState("");
-  const [isFavorite, setIsFavorite] = useState(false);
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [selectedImageName, setSelectedImageName] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: "",
+      ingredients: "",
+      instructions: "",
+      notes: "",
+      isFavorite: false,
+      image: "",
+    },
+  });
+
+  const onSubmit = async (data) => {
     setLoading(true);
-
     try {
-      const newRecipe = {
-        title,
-        ingredients: ingredients.split(",").map((i) => i.trim()),
-        instructions,
+      const recipeData = {
+        title: data.title,
+        ingredients: data.ingredients
+          .split(",")
+          .map((i) => i.trim())
+          .filter((i) => i),
+        instructions: data.instructions?.trim(),
+        notes: data.notes?.trim(),
+        isFavorite: data.isFavorite || false,
+        date: data.date,
       };
 
-      if (image.trim()) newRecipe.image = image.trim();
-      if (notes.trim()) newRecipe.notes = notes.trim();
-      if (isFavorite) newRecipe.isFavorite = true;
+      // Прибрати порожні поля
+      Object.keys(recipeData).forEach((key) => {
+        if (
+          recipeData[key] === "" ||
+          (Array.isArray(recipeData[key]) && recipeData[key].length === 0)
+        ) {
+          delete recipeData[key];
+        }
+      });
 
-      console.log("newRecipe", newRecipe);
+      const image = data.image?.[0] || null;
 
-      const res = await createRecipe(newRecipe);
-      onRecipeAdded(res.data);
+      const res = await dispatch(addRecipeRecord({ formData: recipeData, image })).unwrap();
+
+      if (res?.data) {
+        onRecipeAdded(res.data);  // Переконуємося, що ми додаємо коректний рецепт
+      }
+      
+      reset();  // Очищаємо форму після додавання
+      setSelectedImageName("");
+      onClose();
     } catch (err) {
       console.error("Failed to create recipe:", err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedImageName(file.name);
+      setValue("image", e.target.files);
+    } else {
+      setSelectedImageName("");
+      setValue("image", "");
     }
   };
 
@@ -46,49 +92,64 @@ const AddRecipeModal = ({ onClose, onRecipeAdded }) => {
           ×
         </button>
         <h2>{t("addNewRecipe")}</h2>
-        <form onSubmit={handleSubmit} className={css.form}>
+        <form onSubmit={handleSubmit(onSubmit)} className={css.form}>
           <input
             type="text"
             placeholder={t("title")}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
-
-          <input
-            type="text"
-            placeholder={t("imageURL")}
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
+            {...register("title", { required: true })}
           />
 
           <textarea
             placeholder={t("ingredientsCommaSeparated")}
-            value={ingredients}
-            onChange={(e) => setIngredients(e.target.value)}
-            required
+            {...register("ingredients", { required: true })}
           />
 
           <textarea
             placeholder={t("instructions")}
-            value={instructions}
-            onChange={(e) => setInstructions(e.target.value)}
-            required
+            {...register("instructions")}
           />
 
           <textarea
             placeholder={t("notesOptional")}
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
+            {...register("notes")}
           />
 
-          <label className={css.checkboxLabel}>
-            <input
-              type="checkbox"
-              checked={isFavorite}
-              onChange={(e) => setIsFavorite(e.target.checked)}
+          <div className={css.favoriteWrapper}>
+            <Controller
+              name="isFavorite"
+              control={control}
+              render={({ field }) => (
+                <button
+                  type="button"
+                  onClick={() => field.onChange(!field.value)}
+                  className={css.favoriteButton}
+                  aria-label="Toggle favorite"
+                >
+                  <svg
+                    className={`${css.icon_action} ${
+                      field.value ? css.icon_favorite_active : ""
+                    }`}
+                    width="18"
+                    height="18"
+                  >
+                    <use xlinkHref={svg + "#icon-heart"}></use>
+                  </svg>
+                </button>
+              )}
             />
-            {t("addToFavorites")}
+            <span>{t("addToFavorites")}</span>
+          </div>
+
+          <label className={css.uploadContainer}>
+            <span className={css.ordinaryText}>
+              {selectedImageName || t("uploadPhoto")}
+            </span>
+            <input
+              type="file"
+              accept="image/*"
+              className={css.hideBtn}
+              onChange={handleImageChange}
+            />
           </label>
 
           <button type="submit" disabled={loading} className={css.submitBtn}>

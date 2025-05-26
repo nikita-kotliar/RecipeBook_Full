@@ -279,6 +279,46 @@
   color: #ef5050;
   max-width: 400px;
 }
+.passwordIconBtn {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  width: 20px;
+  height: 20px;
+}
+
+.passwordIcon {
+  width: 20px;
+  height: 20px;
+  fill: transparent;
+  stroke: var(--color-font-second);
+}
+.signUpInputError {
+  border: 1px solid #ef5050;
+  border-radius: 15px;
+  background-color: transparent;
+  padding-left: 16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: #ef5050;
+  width: 100%;
+  outline: none;
+}
+
+.signUpErrorMessage {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  color: #ef5050;
+}
 
 /*TABLET*/
 

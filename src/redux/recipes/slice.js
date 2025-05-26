@@ -11,13 +11,14 @@ const RECIPE_INITIAL_STATE = {
   recipes: {
     data: [],
     isLoading: false,
+    isLoadingImage: {}, // тепер об'єкт, а не булеве значення
     isError: null,
     errorMessage: null,
   },
 };
 
 const sortRecipes = (arr) => {
-  return [...arr].sort((a, b) => b.isFavorite - a.isFavorite); // Сортуємо за isFavorite
+  return [...arr].sort((a, b) => b.isFavorite - a.isFavorite);
 };
 
 const recipeSlice = createSlice({
@@ -25,13 +26,13 @@ const recipeSlice = createSlice({
   initialState: RECIPE_INITIAL_STATE,
   reducers: {
     setRecipes: (state, action) => {
-      state.recipes.data = sortRecipes(action.payload); // Сортуємо перед збереженням у стейт
+      state.recipes.data = sortRecipes(action.payload);
     },
   },
   extraReducers: (builder) => {
     builder
 
-      // ========== fetchRecipesList ==========
+      // ======= fetch =======
       .addCase(fetchRecipesList.pending, (state) => {
         state.recipes.isLoading = true;
         state.recipes.errorMessage = null;
@@ -53,7 +54,7 @@ const recipeSlice = createSlice({
           action.payload || "Failed to fetch recipes";
       })
 
-      // ========== addRecipe ==========
+      // ======= add =======
       .addCase(addRecipeRecord.fulfilled, (state, action) => {
         state.recipes.data.push({
           ...action.payload.data,
@@ -61,10 +62,10 @@ const recipeSlice = createSlice({
           isError: null,
           errorMessage: null,
         });
-        state.recipes.data = sortRecipes(state.recipes.data); // Після додавання сортуємо
+        state.recipes.data = sortRecipes(state.recipes.data);
       })
 
-      // ========== updateRecipe ==========
+      // ======= update =======
       .addCase(updateRecipeRecord.pending, (state, action) => {
         const id = action.meta.arg.id;
         const recipe = state.recipes.data.find((r) => r.id === id);
@@ -87,7 +88,7 @@ const recipeSlice = createSlice({
         if (index !== -1) {
           state.recipes.data[index] = updated;
         }
-        state.recipes.data = sortRecipes(state.recipes.data); // Після оновлення сортуємо
+        state.recipes.data = sortRecipes(state.recipes.data);
       })
       .addCase(updateRecipeRecord.rejected, (state, action) => {
         const id = action.meta.arg.id;
@@ -100,21 +101,22 @@ const recipeSlice = createSlice({
         }
       })
 
-      // ========== deleteRecipe ==========
+      // ======= delete =======
       .addCase(deleteRecipeRecord.fulfilled, (state, action) => {
         const id = action.payload;
         state.recipes.data = state.recipes.data.filter(
           (recipe) => recipe.id !== id
         );
-        state.recipes.data = sortRecipes(state.recipes.data); // Після видалення сортуємо
+        state.recipes.data = sortRecipes(state.recipes.data);
       })
       .addCase(deleteRecipeRecord.rejected, (state) => {
         state.errorMessage = "Failed to delete recipe";
       })
 
-      // ========== uploadRecipeImage ==========
+      // ======= upload image =======
       .addCase(uploadRecipeImage.pending, (state, action) => {
         const { recipeId } = action.meta.arg;
+        state.recipes.isLoadingImage[recipeId] = true;
         const recipe = state.recipes.data.find((r) => r.id === recipeId);
         if (recipe) {
           recipe.isLoading = true;
@@ -124,6 +126,7 @@ const recipeSlice = createSlice({
       })
       .addCase(uploadRecipeImage.fulfilled, (state, action) => {
         const { recipeId, image } = action.payload;
+        state.recipes.isLoadingImage[recipeId] = false;
         const recipe = state.recipes.data.find((r) => r.id === recipeId);
         if (recipe) {
           recipe.image = image;
@@ -134,6 +137,7 @@ const recipeSlice = createSlice({
       })
       .addCase(uploadRecipeImage.rejected, (state, action) => {
         const { recipeId, error } = action.payload || {};
+        state.recipes.isLoadingImage[recipeId] = false;
         const recipe = state.recipes.data.find((r) => r.id === recipeId);
         if (recipe) {
           recipe.isLoading = false;

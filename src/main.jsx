@@ -12,6 +12,7 @@ import { injectStore } from "./axios.js";
 import "./index.css";
 import "./i18n/index.js";
 import TourSteps from './onboarding/steps.jsx';
+// import { WaitForPersistor } from "./components/WaitForPersistor";
 
 injectStore(store);
 

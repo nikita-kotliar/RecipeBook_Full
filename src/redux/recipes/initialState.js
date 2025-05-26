@@ -1,6 +1,6 @@
 export const RECIPE_INITIAL_STATE = {
   recipes: {
-    data: [], 
+    data: [],
     isLoading: false,
     isError: null,
     errorMessage: null,
@@ -11,4 +11,5 @@ export const RECIPE_INITIAL_STATE = {
     isError: null,
     errorMessage: null,
   },
+  isLoadingImage: null,
 };

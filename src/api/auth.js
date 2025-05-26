@@ -1,8 +1,9 @@
 import { instance } from "../axios.js";
 
 export const registerUser = async (userInfo) => {
-  const data = await instance.post("/users/register", userInfo);
-  return data;
+  await instance.post("/users/register", userInfo);
+  const dataa = await instance.post("/users/login", userInfo);
+  return dataa;
 };
 
 export const logInUser = async (userInfo) => {
@@ -40,3 +41,5 @@ export const requestUserCount = async () => {
   const data = await instance.get("/users/count");
   return data;
 };
+
+

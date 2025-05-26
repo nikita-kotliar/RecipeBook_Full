@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EditRecipeModal from "../EditRecipeModal/EditRecipeModal.jsx";
 import css from "./RecipesItem.module.css";
@@ -7,14 +7,16 @@ import svg from "../../assets/icons.svg";
 import LoaderComponent from "../LoaderComponent/LoaderComponent.jsx";
 import { useTranslation } from "react-i18next";
 import { uploadRecipeImage } from "../../redux/recipes/operations.js";
+import { selectIsLoadingImage } from "../../redux/recipes/selectors.js";
 
 const RecipesItem = ({
   recipe,
   onDelete,
   onToggleFavorite,
   onRecipeUpdated,
-  isLoading,
 }) => {
+  const [isLoadingFavorite, setIsLoadingFavorite] = useState(false); 
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
   const recipeId = recipe._id || recipe.id;
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -47,32 +49,39 @@ const RecipesItem = ({
     const formData = new FormData();
     const file = e.target.files[0];
     if (file) {
+      setIsLoadingImage(true); // Показуємо лоадер для фото
       formData.append("image", file);
-      dispatch(uploadRecipeImage({ formData, recipeId }));
+      dispatch(uploadRecipeImage({ formData, recipeId })).finally(() => {
+        setIsLoadingImage(false); // Приховуємо лоадер після завершення запиту
+      });
     }
   };
 
   const handleDeleteRecipe = useCallback(() => {
-    onDelete(recipe.id);
+    onDelete(recipeId);
   }, [onDelete, recipe]);
 
   const handleToggleFavorite = useCallback(() => {
-    onToggleFavorite(recipeId);
+    setIsLoadingFavorite(true); // Показуємо лоадер при натисканні на кнопку "Додати до улюблених"
+    onToggleFavorite(recipeId)
+      .finally(() => {
+        setIsLoadingFavorite(false); // Приховуємо лоадер після завершення запиту
+      });
   }, [onToggleFavorite, recipe]);
 
   return (
     <div className={css.recipe_item_content}>
       <h2>{recipe.title}</h2>
       <div className={css.recipeImage}>
-        {!isLoading ? (
+        {isLoadingImage ? ( // Лоадер тільки при завантаженні фото
+          <div className={css.loader}>
+            <LoaderComponent />
+          </div>
+        ) : (
           <img
             src={recipeImage || "/img/avatar-placeholder.jpg"}
             alt="Recipe Image"
           />
-        ) : (
-          <div className={css.loader}>
-            <LoaderComponent />
-          </div>
         )}
         <label>
           <div className={css.uploadContainer}>
@@ -111,14 +120,16 @@ const RecipesItem = ({
           </svg>
         </button>
 
-        <button
-          className={css.favoriteButton}
-          onClick={handleToggleFavorite}
-          aria-label="Toggle favorite"
-        >
-          {isLoading ? (
-            <LoaderComponent />
-          ) : (
+          {isLoadingFavorite ? ( // Лоадер тільки при натисканні на кнопку "Додати до улюблених"
+            <div className={css.loaderOverlay}>
+              <LoaderComponent />
+            </div>
+          ) : null}
+          <button
+            className={css.favoriteButton}
+            onClick={handleToggleFavorite}
+            aria-label="Toggle favorite"
+          >
             <svg
               className={`${css.icon_action} ${
                 recipe.isFavorite ? css.icon_favorite_active : ""
@@ -128,8 +139,7 @@ const RecipesItem = ({
             >
               <use xlinkHref={svg + "#icon-heart"}></use>
             </svg>
-          )}
-        </button>
+          </button>
 
         <button
           className={css.deleteButton}

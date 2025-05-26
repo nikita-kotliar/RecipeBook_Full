@@ -4,6 +4,7 @@ export const INITIAL_STATE = {
   user: {
     name: "",
     about: "",
+    password: null,
     email: null,
     photo: null,
   },
