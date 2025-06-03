@@ -17,6 +17,8 @@ import { useTranslation } from "react-i18next";
 import LoaderComponent from "../LoaderComponent/LoaderComponent.jsx";
 import Logo from "../Logo/Logo"
 import UserBar from "../UserBar/UserBar.jsx";
+import svg from "../../assets/icons.svg";
+import { useEffect } from "react";
 
 const RecipesItem = lazy(() => import("../RecipesItem/RecipesItem.jsx"));
 const AddRecipeModal = lazy(() => import("../AddRecipeModal/AddRecipeModal.jsx"));
@@ -33,6 +35,17 @@ const RecipeList = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [deletingRecipeId, setDeletingRecipeId] = useState(null);
   const [isFetchingRecipes, setIsFetchingRecipes] = useState(false);
+
+  const [isLightTheme, setIsLightTheme] = useState(() => {
+    return localStorage.getItem("theme") === "light";
+  });
+
+  useEffect(() => {
+    document.body.classList.toggle("light-theme", isLightTheme);
+    localStorage.setItem("theme", isLightTheme ? "light" : "dark");
+  }, [isLightTheme]);
+
+  const toggleTheme = () => setIsLightTheme((prev) => !prev);
 
   const handleDeleteRecipe = async (id) => {
     try {
@@ -117,19 +130,31 @@ const RecipeList = () => {
     <>
       <div className={css.controls}>
         <Logo className={css.logo} />
-        <button
-          onClick={handleFavoritesToggle}
-          className={css.favoriteToggleBtn}
-        >
-          {showFavoritesOnly ? t("showAllRecipes") : t("showFavoritesOnly")}
-        </button>
+        <div className={css.controlsInner}>
+          <button
+            onClick={handleFavoritesToggle}
+            className={css.favoriteToggleBtn}
+          >
+            {showFavoritesOnly ? t("showAllRecipes") : t("showFavoritesOnly")}
+          </button>
 
-        <button onClick={() => setShowAddModal(true)} className={css.addButton}>
-          {t("addNewRecipe")}
-        </button>
-        <UserBar className={css.userBar} />
+          <button onClick={() => setShowAddModal(true)} className={css.addButton}>
+            {t("addNewRecipe")}
+          </button>
+          <button onClick={toggleTheme} className={css.themeButton}>
+            <svg className={css.icon}>
+              <use xlinkHref={svg + (isLightTheme ? "#icon-theme" : "#icon-theme-light")}></use>
+            </svg>
+
+          </button>
+
+          <UserBar className={css.userBar} />
+        </div>
       </div>
-      <div>
+      <div className={css.searchBox}>
+        <svg className={css.iconSearch}>
+          <use xlinkHref={svg + "#icon-search"}></use>
+        </svg>
         <input
           type="text"
           placeholder={t("searchPlaceholder")}
@@ -138,14 +163,21 @@ const RecipeList = () => {
           className={css.searchInput}
         />
 
-        <select
-          value={searchMode}
-          onChange={(e) => setSearchMode(e.target.value)}
-          className={css.searchSelect}
-        >
-          <option value="title">{t("searchByTitle")}</option>
-          <option value="ingredients">{t("searchByIngredients")}</option>
-        </select>
+        <div className={css.selectWrapper}>
+          <select
+            value={searchMode}
+            onChange={(e) => setSearchMode(e.target.value)}
+            className={css.searchSelect}
+          >
+            <option value="title">{t("searchByTitle")}</option>
+            <option value="ingredients">{t("searchByIngredients")}</option>
+          </select>
+          
+          <svg className={css.icon}>
+            <use xlinkHref={svg + "#icon-chevron-down"}></use>
+          </svg>
+        </div>
+
       </div>
 
       {isFetchingRecipes ? (

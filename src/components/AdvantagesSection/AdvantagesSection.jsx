@@ -1,7 +1,6 @@
 import UserCount from "../UserCount/UserCount.jsx";
 import css from "./AdvantagesSection.module.css";
 import { useTranslation } from "react-i18next";
-import CubeScene from "../CubeScene/CubeScene.jsx";
 
 const AdvantagesSection = () => {
   const { t } = useTranslation();
@@ -9,10 +8,6 @@ const AdvantagesSection = () => {
     <div className={css.advantagesSection}>
       <div className={css.userCount}>
         <UserCount />
-      </div>
-
-      <div>
-        <CubeScene />
       </div>
 
       <ul className={css.advantagesList}>

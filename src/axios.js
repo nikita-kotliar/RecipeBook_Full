@@ -53,7 +53,6 @@ instance.interceptors.response.use(
 
         store.dispatch(setToken(newToken));
 
-        // Додай новий токен до headers вручну
         originalRequest.headers["Authorization"] = "Bearer " + newToken;
 
         return instance(originalRequest);
@@ -61,7 +60,7 @@ instance.interceptors.response.use(
         if (error.response?.status === 401) {
           store.dispatch(logOutReducer());
         }
-        return Promise.reject(error); // <-- обов'язково
+        return Promise.reject(error); 
       }
     }
 

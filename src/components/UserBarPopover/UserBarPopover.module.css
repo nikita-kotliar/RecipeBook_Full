@@ -1,13 +1,16 @@
 .userBarPopover {
   position: absolute;
-  width: 100%;
+  width: 140px;
   padding: 14px 20px;
   border-radius: 15px;
-  background-color: #fff;
-  box-shadow: 0 4px 50px 0 rgba(0, 0, 0, 0.1);
+  background-color: var(--color-button);
+  box-shadow: var(--color-box-shadow);
   font-size: 14px;
   line-height: 1.49;
   font-weight: 700;
+  /* transform: translateX(-20px); */
+  transform: translate(-20px, -200px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .userBarPopoverList {
@@ -20,19 +23,28 @@
   align-items: center;
   gap: 8px;
   width: fit-content;
-  color: var(--color-font-main);
+  color: var(--color-text-main);
   cursor: pointer;
 }
+.userBarPopoverListItem svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--color-text-main);
+  fill: none;
 
-.userBarPopoverListItemLogOut {
-  color: #323f4766;
+}
+.userBarPopoverListItem:hover {
+  color: var(--color-text-secondary);
+}
+.userBarPopoverListItem:hover > svg {
+  stroke: var(--color-text-secondary);
 }
 
-.userBarPopoverListItemLogOut:hover {
-  color: var(--color-font-main);
+.fadeIn {
+  opacity: 1;
+  transform: translate(-20px, 0px);
 }
-
-.userBarPopoverIconSettings {
+/* .userBarPopoverIconSettings {
   width: 16px;
   height: 16px;
   fill: none;
@@ -41,9 +53,9 @@
 .userBarPopoverIconLogOut {
   width: 16px;
   height: 16px;
-  stroke: #323f4766;
+  stroke: var(--color-font-main);
   fill: none;
 }
 .userBarPopoverListItemLogOut:hover > .userBarPopoverIconLogOut {
-  stroke: var(--color-font-main);
-}
+  stroke: var(--color-text-secondary);
+} */

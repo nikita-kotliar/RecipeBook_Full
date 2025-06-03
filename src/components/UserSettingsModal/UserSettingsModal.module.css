@@ -1,92 +1,60 @@
-/*Mobile view*/
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
 
-.modalSettingContainer {
+.modalDiv {
+  background-color: var(--color-bg-card);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  color: var(--color-text-main);
+  position: relative;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
-  max-height: 95vh;
-  max-width: 343px;
-  z-index: 101;
-  background-color: white;
-  border-radius: 15px;
-  position: relative;
-  top: auto;
-  bottom: auto;
+  overflow: hidden;
+  padding: 24px;
 }
 
-.modalHeader {
-  display: flex;
-  padding: 40px 20px 0;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.modalHeader h2 {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 24px;
-  letter-spacing: -0.01em;
+.modal {
+  overflow-y: auto;
+  max-height: 100%;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-button) transparent;
 }
 
 .closeBtn {
   position: absolute;
+  top: 11px;
+  right: 11px;
   background: none;
   border: none;
+  font-size: 28px;
+  color: var(--color-text-main);
   cursor: pointer;
+  width: 32px;
+  height: 32px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 0;
-  top: 20px;
-  right: 20px;
-  width: 24px;
-  height: 24px;
+  align-items: center;
+  border-radius: 15%;
+  background-color: var(--color-button);
 }
 
-.icon {
-  height: 100%;
-  width: 100%;
-  fill: white;
-  stroke: black;
-}
-.closeBtn:hover .icon {
-  stroke: #87d28d;
+.closeBtn:hover {
+  background-color: var(--color-button-hover);
 }
 
-/*Tablet view*/
-@media screen and (min-width: 768px) {
-  .modalSettingContainer {
-    max-width: 648px;
-  }
-
-  .modalHeader {
-    /*flex-direction: row;*/
-    padding: 40px 40px 0;
-    align-items: center;
-  }
-
-  .modalHeader h2 {
-    font-size: 28px;
-    line-height: 32px;
-    letter-spacing: -0.01em;
-  }
-
-  .closeBtn {
-    position: static;
-    top: 40px;
-    right: 40px;
-    width: 28px;
-    height: 28px;
-  }
-
-  .icon {
-    height: 28px;
-    width: 28px;
-  }
-}
-
-@media screen and (min-width: 1440px) {
-  .modalSettingContainer {
-    max-width: 920px;
-  }
+.modalDiv h2 {
+  padding-bottom: 10px;
 }

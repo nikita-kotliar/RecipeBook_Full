@@ -9,15 +9,14 @@ import { useTour } from "@reactour/tour";
 import { disableBody } from "../../onboarding/onboardingStyles.js";
 
 const UserBarPopover = forwardRef(function UserBarPopover(
-  { handleOutsideClick },
+  { handleOutsideClick, animate, onClose },
   ref
 ) {
   const { t } = useTranslation();
   const { setIsOpen, setCurrentStep, setSteps } = useTour();
   const windowHeight = window.innerHeight;
   const scrollPosition = window.scrollY;
-  const [userBarPopoverTopPosition, setUserBarPopoverTopPosition] =
-    useState(64);
+  const [userBarPopoverTopPosition, setUserBarPopoverTopPosition] = useState(64);
   const setModal = useModal();
 
   const stepsLoc = [
@@ -30,30 +29,12 @@ const UserBarPopover = forwardRef(function UserBarPopover(
       ),
       position: "center",
     },
-    {
-      selector: ".first-step",
-      content: t("first-step"),
-    },
-    {
-      selector: ".second-step",
-      content: t("second-step"),
-    },
-    {
-      selector: ".third-step",
-      content: t("third-step"),
-    },
-    {
-      selector: ".four-step",
-      content: t("fourth-step"),
-    },
-    {
-      selector: ".five-step",
-      content: t("fifth-step"),
-    },
-    {
-      selector: ".six-step",
-      content: t("sixth-step"),
-    },
+    { selector: ".first-step", content: t("first-step") },
+    { selector: ".second-step", content: t("second-step") },
+    { selector: ".third-step", content: t("third-step") },
+    { selector: ".four-step", content: t("fourth-step") },
+    { selector: ".five-step", content: t("fifth-step") },
+    { selector: ".six-step", content: t("sixth-step") },
     {
       content: (
         <div style={{ textAlign: "center" }}>
@@ -65,6 +46,7 @@ const UserBarPopover = forwardRef(function UserBarPopover(
   ];
 
   const startTour = () => {
+    onClose(); // Закриваємо меню
     setSteps(stepsLoc);
     setCurrentStep(0);
     setIsOpen(true);
@@ -76,19 +58,18 @@ const UserBarPopover = forwardRef(function UserBarPopover(
   }, [setModal]);
 
   const openSettingsModal = useCallback(() => {
-    //TODO
-    setModal(<UserSettingsModal onClose={closeModal} />),
-      [setModal, closeModal];
-  });
+    onClose(); // Закриваємо меню
+    setModal(<UserSettingsModal onClose={closeModal} />);
+  }, [setModal, closeModal, onClose]);
 
   const openLogOutModal = useCallback(() => {
+    onClose(); // Закриваємо меню
     setModal(<LogOutModal onClose={closeModal} />);
-  }, [setModal, closeModal]);
+  }, [setModal, closeModal, onClose]);
 
   useEffect(() => {
     const userBarPopoverHeight = ref.current.clientHeight;
-    const userBarPopoverBottomPosition =
-      ref.current.getBoundingClientRect().bottom;
+    const userBarPopoverBottomPosition = ref.current.getBoundingClientRect().bottom;
 
     if (
       windowHeight - scrollPosition > userBarPopoverHeight &&
@@ -102,22 +83,19 @@ const UserBarPopover = forwardRef(function UserBarPopover(
 
   return (
     <div
-      className={styles.userBarPopover}
+      className={`${styles.userBarPopover} ${animate ? styles.fadeIn : ""}`}
       style={{ top: userBarPopoverTopPosition }}
       ref={ref}
     >
       <ul className={styles.userBarPopoverList}>
-        <li
-          className={styles.userBarPopoverListItem}
-          onClick={openSettingsModal}
-        >
+        <li className={styles.userBarPopoverListItem} onClick={openSettingsModal}>
           <svg className={styles.userBarPopoverIconSettings}>
             <use xlinkHref={svgIcons + "#icon-settings"}></use>
           </svg>
           {t("settingLink")}
         </li>
         <li className={styles.userBarPopoverListItem} onClick={startTour}>
-          <svg className={styles.userBarPopoverIconSettings}>
+          <svg className={styles.userBarPopoverIconTour}>
             <use xlinkHref={svgIcons + "#icon-tour"}></use>
           </svg>
           {t("use")}

@@ -2,7 +2,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   updateUserProfile,
@@ -29,36 +29,53 @@ const UserSettingsForm = ({ handleClose }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [hasPassword, setHasPassword] = useState(!!user.password);
 
+  const aboutRef = useRef(null);
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const autoResizeTextarea = (el) => {
+    if (el) {
+      el.style.height = "48px";
+      el.style.padding = "10px 10px 15px 10px";
+      const scrollHeight = el.scrollHeight;
+      const lineHeight = 20;
+      const maxHeight = lineHeight * 10;
+      el.style.height = Math.min(scrollHeight, maxHeight) + "px";
+    }
   };
 
   const schema = yup.object({
     name: yup
       .string()
-      .min(2, "Name must contain at least 2 characters")
-      .max(60, t("nameMaxCharacters"))
+      .min(2, t("nameMinCharacters"))
+      .max(20, t("nameMaxCharacters"))
       .required(t("nameRequired")),
-
     about: yup.string().max(500, t("aboutMaxCharacters")),
-
     password: yup
       .string()
-      .test(
-        "password-conditional-validation",
-        t("passwordTooShort"),
-        function (value) {
-          if (!value || value.trim() === "") return true;
-          return value.length >= 5 && value.length <= 25;
-        }
-      )
+      .test("password-conditional-validation", t("passwordTooShort"), function (value) {
+        if (!value || value.trim() === "") return true;
+        return value.length >= 5;
+      })
+      .max(25, t("passwordMaxCharacters"))
       .matches(/^[A-Za-z]*$/, t("passwordOnlyEnglish")),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref("password"), null], t("passwordsMustMatch"))
+      .when("password", {
+        is: (val) => val && val.length > 0,
+        then: (schema) => schema.required(t("confirmPasswordRequired")),
+        otherwise: (schema) => schema.notRequired(),
+      }),
   });
 
   const {
     control,
     register,
     handleSubmit,
+    watch,
     setValue,
     formState: { errors },
   } = useForm({
@@ -68,6 +85,7 @@ const UserSettingsForm = ({ handleClose }) => {
       name: user.name,
       about: user.about || "",
       password: "",
+      confirmPassword: "",
     },
     mode: "onChange",
   });
@@ -84,9 +102,10 @@ const UserSettingsForm = ({ handleClose }) => {
     }
 
     dispatch(updateUserProfile(cleanedData)).then(() => {
-      setValue("password", ""); // очищаємо поле
+      setValue("password", "");
+      setValue("confirmPassword", "");
       if (cleanedData.password) {
-        setHasPassword(true); // оновлюємо локальний флаг
+        setHasPassword(true);
       }
     });
   };
@@ -99,6 +118,10 @@ const UserSettingsForm = ({ handleClose }) => {
       dispatch(uploadUserPhoto(formData));
     }
   };
+
+  useEffect(() => {
+    autoResizeTextarea(aboutRef.current);
+  }, [user.about]);
 
   return (
     <>
@@ -130,7 +153,15 @@ const UserSettingsForm = ({ handleClose }) => {
         </label>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className={css.userSettingForm}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
+            e.preventDefault();
+          }
+        }}
+        className={css.userSettingForm}
+      >
         <div className={css.userPreferences}>
           <div className={css.formNameEmail}>
             <label>
@@ -166,16 +197,23 @@ const UserSettingsForm = ({ handleClose }) => {
             <label>
               <span className={css.boldText}>{t("aboutYou")}</span>
               <Controller
+                name="about"
+                control={control}
                 render={({ field }) => (
                   <textarea
                     {...field}
+                    ref={aboutRef}
                     className={css.inputBox}
                     placeholder={t("placeholderAbout")}
+                    onInput={(e) => {
+                      const value = e.target.value.slice(0, 500); 
+                      field.onChange(value);
+                      autoResizeTextarea(aboutRef.current);
+                    }}
                   />
                 )}
-                name="about"
-                control={control}
               />
+
               {errors.about && (
                 <p className={css.errorMessage}>{errors.about.message}</p>
               )}
@@ -194,12 +232,9 @@ const UserSettingsForm = ({ handleClose }) => {
                   {...register("password")}
                   onInput={(e) => (e.target.value = e.target.value.trimStart())}
                   placeholder={
-                    hasPassword
-                      ? t("enterNewPassword")
-                      : t("setPassword")
+                    hasPassword ? t("enterNewPassword") : t("setPassword")
                   }
                 />
-
                 <button
                   className={css.passwordIconBtn}
                   type="button"
@@ -216,17 +251,36 @@ const UserSettingsForm = ({ handleClose }) => {
                   </svg>
                 </button>
               </span>
-
               {hasPassword && (
                 <p className={css.infoText}>{t("leaveBlankToKeepOld")}</p>
               )}
-
               {errors.password?.message && (
                 <p className={css.signUpErrorMessage}>
-                  {errors.password?.message}
+                  {errors.password.message}
                 </p>
               )}
             </label>
+
+            {watch("password")?.length > 0 && (
+              <label>
+                <span className={css.boldText}>{t("confirmPassword")}</span>
+                <input
+                  type="password"
+                  className={
+                    errors.confirmPassword?.message
+                      ? css.signUpInputError
+                      : css.inputBox
+                  }
+                  {...register("confirmPassword")}
+                  placeholder={t("confirmPassword")}
+                />
+                {errors.confirmPassword?.message && (
+                  <p className={css.signUpErrorMessage}>
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
+              </label>
+            )}
           </div>
         </div>
 

@@ -7,7 +7,7 @@ import {
   updateUserInfo,
   updateUserPhoto,
   registerUser,
-} from "../../api/auth.js"; // переконайся, що шлях правильний
+} from "../../api/auth.js"; 
 
 import { fetchRefreshToken } from "../../axios.js";
 

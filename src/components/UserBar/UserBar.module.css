@@ -4,22 +4,22 @@
 }
 
 .userBar {
+  background: transparent; 
+  color: var(--color-text-main);
   display: flex;
   align-items: center;
-  gap: 10px;
-  border-radius: 30px;
+  gap: 0.2rem;
   border: none;
-  padding: 6px 12px;
-  height: 56px;
-  background-color: #323f47;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--white);
+  border-radius: 1rem;
+  padding: 0;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-main);
 }
 
-.userBar:hover {
-  color: #9be1a0;
-}
+/* .userBar:hover {
+  background-color: var(--color-button-hover);
+} */
 
 .userBarText {
   max-width: 100px;
@@ -30,9 +30,9 @@
 }
 
 .userBarAvatar {
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
+  border-radius: 1rem;
+  width: 50px;
+  height: 50px;
   background-color: transparent;
   background-size: cover;
   background-position: center;
@@ -43,22 +43,13 @@
 
 .userBarIcon {
   fill: none;
-  stroke: #fff;
-  width: 20px;
-  height: 20px;
+  stroke: var(--color-button-hover);
+  width: 30px;
+  height: 30px;
   pointer-events: none;
 }
 
 .userBar:hover .userBarIcon {
-  stroke: #9be1a0;
+  stroke: var(--color-text-main);
 }
 
-@media screen and (min-width: 768px) {
-  .userBar {
-    font-size: 16px;
-    line-height: 1.5;
-  }
-}
-
-@media screen and (min-width: 1440px) {
-}

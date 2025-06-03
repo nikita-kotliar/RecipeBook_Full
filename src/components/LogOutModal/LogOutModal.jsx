@@ -1,21 +1,32 @@
 import { useTranslation } from "react-i18next";
 import css from "./LogOutModal.module.css";
 import svg from "../../assets/icons.svg";
-import BtnLogout from "../BtnLogout/BtnLogout.jsx";
 import { ANIMATION } from "../../constants.js";
 import { useSelector } from "react-redux";
 import { selectIsLoading } from "../../redux/auth/selectors.js";
 import LoaderComponent from "../LoaderComponent/LoaderComponent.jsx";
-
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logOut } from "../../redux/auth/operations";
 const ModalLogout = ({ onClose }) => {
   const { t } = useTranslation();
   const isLoading = useSelector(selectIsLoading);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleClose = () => {
     const id = setTimeout(() => {
       onClose();
       clearTimeout(id);
     }, ANIMATION.DURATION);
+  };
+  const handleLogout = () => {
+    dispatch(logOut()).then(({ error }) => {
+      if (!error) {
+        navigate("/");
+        handleClose();
+      }
+    });
   };
 
   return (
@@ -39,7 +50,9 @@ const ModalLogout = ({ onClose }) => {
           <LoaderComponent height={80} width={80} />
         ) : (
           <>
-            <BtnLogout handleClose={handleClose} />
+            <button type="button" onClick={handleLogout} className={css.btnLogout}>
+              {t("logout")}
+            </button>
             <button
               type="button"
               onClick={handleClose}

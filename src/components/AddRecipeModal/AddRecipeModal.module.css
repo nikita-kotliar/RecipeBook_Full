@@ -1,68 +1,187 @@
+/* AddRecipeModal.module.css */
+
 .backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
-.modal {
-  background: white;
+.modalDiv {
+  background-color: var(--color-bg-card);
   border-radius: 12px;
-  padding: 24px;
-  width: 90%;
-  max-width: 500px;
+  width: 70%;
+  max-width: 600px;
+  color: var(--color-text-main);
   position: relative;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; 
+  padding: 24px;
 }
 
+.modal {
+  overflow-y: auto;
+  max-height: 100%;
+  box-sizing: border-box;
+
+  scrollbar-width: thin; 
+  scrollbar-color: var(--color-button) transparent;
+}
 .closeBtn {
   position: absolute;
-  top: 8px;
-  right: 12px;
-  font-size: 24px;
-  background: transparent;
+  top: 1rem;
+  right: 1rem;
+  background: none;
   border: none;
+  font-size: 2rem;
+  color: var(--color-text-secondary);
   cursor: pointer;
-  color: #333;
+  transition: color 0.3s ease;
+}
+
+.closeBtn:hover {
+  color: var(--color-button);
+}
+
+.h2 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: var(--color-text-main);
+  text-align: center;
+  /* width: 100%; */
+  margin-bottom: 20px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 16px;
+  gap: 1rem;
 }
 
-input,
+.modal input[type="text"],
 textarea {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 16px;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-page);
+  color: var(--color-text-main);
+  resize: vertical;
+  outline-offset: 2px;
+  transition: border-color 0.3s ease;
+}
+
+.modal input[type="text"]:focus,
+textarea:focus {
+  border-color: var(--color-button);
+  outline: none;
+}
+
+.modal textarea {
+  height: 40px;
+}
+
+.favoriteWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.favoriteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.favoriteButton svg:hover {
+  transform: scale(1.1);
+}
+
+.icon_action {
+  stroke: var(--color-text-secondary);
+  fill: none;
+  transition: stroke 0.3s ease, fill 0.3s ease;
+}
+
+.icon_favorite_active {
+  fill: var(--color-favorite);
+  stroke: var(--color-favorite);
+}
+
+.favoriteWrapper span {
+  color: var(--color-text-main);
+  font-weight: 600;
+  user-select: none;
+}
+
+.uploadContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background-color: var(--color-bg-page);
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  user-select: none;
+}
+
+.uploadContainer:hover {
+  background-color: var(--color-button-hover);
+  border-color: var(--color-button);
+  color: var(--color-text-main);
+}
+
+.hideBtn {
+  display: none;
 }
 
 .submitBtn {
-  background-color: #4caf50;
-  color: white;
+  margin-top: 0.5rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--color-button);
+  color: var(--color-text-main);
+  font-weight: 700;
+  font-size: 1.1rem;
   border: none;
-  padding: 12px;
-  border-radius: 6px;
-  font-size: 16px;
+  border-radius: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 .submitBtn:disabled {
-  background-color: #a5d6a7;
+  background-color: var(--color-button-hover);
   cursor: not-allowed;
 }
 
-.submitBtn:hover:not(:disabled) {
-  background-color: #45a049;
+.submitBtn:not(:disabled):hover {
+  background-color: var(--color-button-hover);
+}
+
+.textarea {
+  width: 100%;
+  resize: none;
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+  margin-top: 5px;
 }

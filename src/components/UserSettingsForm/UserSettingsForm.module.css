@@ -1,461 +1,187 @@
-/*Mobile view*/
-
+/* Контейнер аватарки */
 .userAvatar {
-  height: 103px;
-  width: 133px;
-  margin: 0 auto;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  margin-bottom: 24px;
+  gap: 12px;
 }
 
 .userAvatar img {
-  width: 75px;
-  height: 75px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
-  background-color: transparent;
-  margin-bottom: 10px;
   object-fit: cover;
-}
-
-.loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 85px;
-  height: 85px;
+  border: 2px solid var(--color-border-textarea);
 }
 
 .uploadContainer {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  gap: 8px;
   cursor: pointer;
-  width: max-content;
+  background-color: var(--color-button);
+  color: var(--color-text-main);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.uploadContainer:hover {
+  background-color: var(--color-button-hover);
 }
 
 .icon {
-  fill: white;
-  stroke: var(--color-font-second);
-  width: 18px;
-  height: 18px;
-  margin-right: 8px;
-}
-
-.ordinaryText {
-  font-size: 14px;
-  line-height: 18px;
-  color: var(--color-font-second);
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: var(--color-text-main);
 }
 
 .hideBtn {
   display: none;
 }
 
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+}
+
+/* Основна форма */
 .userSettingForm {
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
-  padding: 0 2px 40px 20px;
-}
-
-.userSettingForm::-webkit-scrollbar {
-  width: 20px;
-}
-
-.userSettingForm::-webkit-scrollbar-thumb {
-  background: var(--color-main-bg);
-  border-radius: 30px;
-  cursor: pointer;
-  border: 7px solid rgba(0, 0, 0, 0);
-  background-clip: padding-box;
-}
-
-.boldText {
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 20px;
-}
-
-.genderContainer {
-  width: 100%;
-  margin-bottom: 24px;
-}
-
-.radioContainer {
-  margin-top: 14px;
-  display: flex;
-  align-items: center;
-}
-
-.radioContainer > label:not(:last-child) {
-  margin-right: 20px;
-}
-
-.radioInput {
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid var(--color-second-bg);
-  display: inline-block;
-  position: relative;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.radioInput:checked::before {
-  content: "";
-  display: block;
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-second-bg);
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  gap: 24px;
 }
 
 .userPreferences {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  gap: 24px;
 }
 
-.formNameEmail {
-  margin-bottom: 24px;
-}
-
+/* Групи полів */
 .formNameEmail,
-.formWeightTime {
+.formAbout {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
-.formNameEmail label,
-.formWeightTime label {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.formula {
-  margin-top: 10px;
-}
-
-.inputBox {
-  height: 46px;
-  max-width: 100%;
-  border-radius: 15px;
-  border: 1px solid rgba(47, 47, 47, 0.15);
-  padding: 16px 14px;
-  outline: none;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 18px;
-  letter-spacing: -0.01em;
-  color: var(--color-font-second);
-  background-color: transparent;
-}
-
-.inputBox:disabled {
-  color: #989c9d;
-  background-color: #f0eff4;
-}
-
-.inputBox:focus {
-  border: 1px solid rgba(47, 47, 47, 0.4);
-}
-
-.formulaDescription {
-  display: flex;
-  flex-direction: column;
-  margin-top: 14px;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.formulaDescription p {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.formulaExpression {
-  color: var(--color-second-bg);
-  font-weight: 700;
-}
-
-.formulaDescription + .ordinaryText {
-  height: 140px;
-  width: 100%;
-  border-radius: 15px;
-  padding: 16px;
-  border: 1px solid rgba(47, 47, 47, 0.15);
-  margin-bottom: 14px;
-}
-
-.temporarySymbol {
-  color: var(--color-second-bg);
-  font-weight: 700;
-  font-size: 18px;
-  margin-right: 4px;
-  width: 18px;
-  display: inline-block;
-  text-align: center;
-}
-
-.formulaDescriptionText {
-  color: rgba(47, 47, 47, 0.6);
-}
-
-.submitBtn {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 40px;
-  border-radius: 30px;
-  padding: 0 40px;
-  min-height: 46px;
-  font-weight: 700;
-  width: fit-content;
-  outline: none;
-  border: none;
-  background-color: var(--color-second-bg);
-}
-
-.submitBtn:active {
-  background-color: var(--color-second-bg-hover);
-}
-
-.submitBtn:disabled {
-  background-color: transparent;
-}
-
-.loaderWrapper {
-  top: 0;
-  left: 50%;
-  position: absolute;
-  transform: translateX(-50%);
-}
-
-.boldTextBtn {
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 18px;
-  letter-spacing: -0.01em;
-}
-
-.consumeWater {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-top: 10px;
-}
-
-.userNorma {
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 18px;
-  color: var(--color-second-bg);
+/* Стиль міток */
+.boldText {
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 4px;
   display: block;
 }
 
-.langButton {
-  padding: 10px 20px;
+.label {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: 16px;
-  font-weight: 700;
+  flex-direction: column;
 }
 
-.errorMessage {
-  font-size: 14px;
-  color: #ef5050;
-  max-width: 400px;
+/* Поля вводу */
+.inputBox,
+.signUpInputError {
+  width: 100%;
+  background-color: var(--color-textarea-bg);
+  border: 1px solid var(--color-border-textarea);
+  border-radius: 8px;
+  padding: 10px;
+  color: var(--color-text-main);
+  font-size: 16px;
+  resize: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+  height: 46px;
+  overflow: hidden;
 }
+
+.inputBox:focus,
+.signUpInputError:focus {
+  border-color: var(--color-button);
+  outline: none;
+}
+
+.signUpInputError {
+  border-color: var(--color-error);
+}
+
+/* Кнопка показу паролю */
 .passwordIconBtn {
-  position: absolute;
-  right: 18px;
-  top: 18px;
-  padding: 0;
+  background: none;
   border: none;
-  background-color: transparent;
-  width: 20px;
-  height: 20px;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 
 .passwordIcon {
   width: 20px;
   height: 20px;
-  fill: transparent;
-  stroke: var(--color-font-second);
-}
-.signUpInputError {
-  border: 1px solid #ef5050;
-  border-radius: 15px;
-  background-color: transparent;
-  padding-left: 16px;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: -0.01em;
-  color: #ef5050;
-  width: 100%;
-  outline: none;
+  /* fill: var(--color-text-main); */
+  stroke: var(--color-text-main);
+
 }
 
+/* Контейнер поля з іконкою */
+span:has(.passwordIconBtn) {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Повідомлення про помилки */
+.errorMessage,
 .signUpErrorMessage {
+  color: red;
   font-size: 14px;
-  font-weight: 400;
-  line-height: 1.28571;
-  letter-spacing: -0.01em;
-  color: #ef5050;
+  margin-top: 4px;
 }
 
-/*TABLET*/
-
-@media screen and (min-width: 768px) {
-  .langButton {
-    font-size: 18px;
-  }
-
-  .userSettingForm {
-    padding: 0 0 40px 40px;
-  }
-
-  .userAvatar {
-    height: 134px;
-    width: 151px;
-  }
-
-  .userAvatar img {
-    width: 100px;
-    height: 100px;
-  }
-
-  .loader {
-    width: 110px;
-    height: 110px;
-  }
-
-  .icon {
-    width: 20px;
-    height: 20px;
-  }
-
-  .ordinaryText {
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  .userSettingForm::-webkit-scrollbar {
-    width: 40px;
-  }
-
-  .userSettingForm::-webkit-scrollbar-thumb {
-    background: var(--color-main-bg);
-    border-radius: 30px;
-    cursor: pointer;
-    border: 16px solid rgba(0, 0, 0, 0);
-    background-clip: padding-box;
-  }
-
-  .boldText {
-    font-size: 18px;
-    line-height: 24px;
-  }
-
-  .inputBox {
-    height: 56px;
-    padding: 16px;
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  .formulaDescription {
-    flex-direction: row;
-    gap: 28px;
-  }
-
-  .formulaDescription + .ordinaryText {
-    height: 128px;
-  }
-
-  .temporarySymbol {
-    font-size: 22px;
-    width: 22px;
-  }
-
-  .submitBtn {
-    min-height: 56px;
-  }
-
-  .boldTextBtn {
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  .userNorma {
-    font-size: 15px;
-    line-height: 22px;
-    display: inline;
-  }
+.infoText {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
 }
 
-/*Desktop*/
-@media screen and (min-width: 1440px) {
-  .userSettingForm {
-    padding: 0 0 40px 40px;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
+/* Кнопка submit */
+.submitBtn {
+  background-color: var(--color-button);
+  color: var(--color-text-main);
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
 
-  .userPreferences {
-    flex-direction: row;
-    justify-content: space-between;
-  }
+.submitBtn:hover:not(:disabled) {
+  background-color: var(--color-button-hover);
+}
 
-  .formNameEmail {
-    margin-bottom: 0;
-  }
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
-  .inputBox {
-    width: 400px;
-  }
+.loaderWrapper {
+  display: flex;
+  align-items: center;
+}
 
-  .formulaDescription + .ordinaryText {
-    height: fit-content;
-    width: 400px;
-  }
-
-  .ordinaryText {
-    max-width: 400px;
-  }
-
-  .boldText {
-    max-width: 400px;
-  }
-
-  .submitBtn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 56px;
-  }
-
-  .submitBtn:hover {
-    background-color: var(--color-second-bg-hover);
-  }
-
-  .submitBtn:disabled {
-    background-color: transparent;
-  }
+.formAbout textarea {
+  line-height: 1.2;
+  white-space: pre-wrap;
 }

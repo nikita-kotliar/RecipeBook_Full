@@ -1,20 +1,94 @@
+
+
 .recipe_item_content {
-  border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1rem;
+  background-color: var(--color-bg-card);
+  border-radius: 16px;
+  color: var(--color-text-main);
+  display: flex;
+  gap: 20px;
+  transition: background-color var(--transition-main);
+  z-index: 1;
 }
 
-.recipe_image {
+.recipe_item_content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.recipeImage {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.recipeImage img {
+  position: absolute;
   width: 100%;
-  height: auto;
-  border-radius: 8px;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.uploadContainer {
+  position: absolute;
+  background-color: var(--color-uploadContainer);
+  color: var(--color-text-main);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  width: 90%;
+  height: 30px;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  justify-content: center;
+  border: 1px solid var(--color-border-textarea);
+}
+
+.uploadContainer .icon {
+  width: 16px;
+  height: 16px;
+  fill: var(--color-text-main);
+  stroke: var(--color-text-main);
+}
+
+.hideBtn {
+  display: none;
+}
+
+ul {
+  padding-left: 20px;
+  margin: 10px 0;
+  color: var(--color-text-secondary);
+  display: flex; 
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 10px;
 }
 
 .container_buttons {
+  margin-top: auto;
   display: flex;
+  align-items: center;
   gap: 8px;
-  margin-top: 12px;
+  z-index: 10;
+  position: absolute;
+  bottom: 25px;
+  right: 13px;
 }
 
 .editButton,
@@ -23,348 +97,80 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
-}
-
-.icon_action {
-  fill: #555;
-}
-
-.icon_favorite_active {
-  fill: red;
-}
-
-
-
-.water_item_content {
+  transition: transform var(--transition-main);
+  width: 35px;
+  height: 35px;
   display: flex;
-  width: 149px;
-  height: 74px;
   align-items: center;
-  justify-content: space-between;
-  background-color: var(--white);
-  border-radius: 10px;
-  padding: 14px;
-  gap: 3px;
-}
-.water_info {
-  width: fit-content;
-}
-.water_amount {
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1;
-  margin-bottom: 6px;
-}
-
-.water_date {
-  font-size: 12px;
-  line-height: 1;
-  color: rgba(47, 47, 47, 0.6);
-}
-
-.icon_water_glass {
-  display: flex;
   justify-content: center;
-  align-items: center;
-  width: 36px;
-  height: 36px;
-  fill: var(--color-second-bg-hover);
-}
-
-.editButton,
-.deleteButton {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
+  background-color: var(--color-button);
+  border-radius: 5px;
 }
 
 .editButton:hover,
+.favoriteButton:hover,
 .deleteButton:hover {
   transform: scale(1.1);
+  background-color: var(--color-button-hover);
 }
 
-.container_buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+
+.favoriteButton svg {
+  transform: translate(.8px, .8px);
+}
+.icon_action{
+  fill: var(--color-icon-inactive);
+  stroke: var(--color-icon-inactive);
+  transition: fill var(--transition-main);
 }
 
-.icon_action {
-  fill: none;
-  stroke: var(--color-font-main);
-}
-
-.icon_action {
-  fill: none;
-  stroke: var(--color-font-main);
-}
-
-.icon_action {
-  transition: opacity 0.3s ease;
-}
-
-.icon_action:hover {
-  opacity: 0.8;
-  fill: var(--color-second-bg);
-}
 .icon_favorite_active {
-  fill: var(--color-second-bg);
-  stroke: var(--color-second-bg);
-  stroke-width: 0;
-} 
-.icon_water-glass {
-  fill: var(--color-second-bg);
-  stroke: var(--color-second-bg);
-  stroke-width: 0;
+  fill: var(--color-favorite);
+  stroke: var(--color-favorite);
 }
 
-
-/* ///////////////////////////////////////////////////////////// */
-
-.recipeImage {
-  height: 103px;
-  width: 133px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-}
-
-.recipeImage img {
-  width: 75px;
-  height: 75px;
-  border-radius: 50%;
-  background-color: transparent;
-  margin-bottom: 10px;
-  object-fit: cover;
-}
-
-.loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 85px;
-  height: 85px;
-}
-
-.uploadContainer {
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-  width: max-content;
-}
-
-.icon {
-  fill: white;
-  stroke: var(--color-font-second);
-  width: 18px;
-  height: 18px;
-  margin-right: 8px;
-}
-
-.ordinaryText {
-  font-size: 14px;
-  line-height: 18px;
-  color: var(--color-font-second);
-}
-
-.hideBtn {
-  display: none;
-}
-
-
-.favoriteButtonContainer {
-  position: relative;
-  display: inline-block;
-}
-
-.loaderOverlay {
+.loader,
+.fullOverlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.6); /* Slightly transparent background */
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 10;
+  justify-content: center;
+  z-index: 20;
+  border-radius: 0.5rem;
+  backdrop-filter: blur(5px);
 }
 
-.favoriteButton {
+
+.recipeDetails {
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   position: relative;
-  z-index: 5; /* Ensure the button itself is always clickable and above the loader */
 }
 
-
-@media screen and (min-width: 768px) {
-  .langButton {
-    font-size: 18px;
-  }
-
-  .userSettingForm {
-    padding: 0 0 40px 40px;
-  }
-
-  .recipeImage {
-    height: 134px;
-    width: 151px;
-  }
-
-  .recipeImage img {
-    width: 100px;
-    height: 100px;
-  }
-
-  .loader {
-    width: 110px;
-    height: 110px;
-  }
-
-  .icon {
-    width: 20px;
-    height: 20px;
-  }
-
-  .ordinaryText {
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  .userSettingForm::-webkit-scrollbar {
-    width: 40px;
-  }
-
-  .userSettingForm::-webkit-scrollbar-thumb {
-    background: var(--color-main-bg);
-    border-radius: 30px;
-    cursor: pointer;
-    border: 16px solid rgba(0, 0, 0, 0);
-    background-clip: padding-box;
-  }
-
-  .boldText {
-    font-size: 18px;
-    line-height: 24px;
-  }
-
-  .inputBox {
-    height: 56px;
-    padding: 16px;
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  .formulaDescription {
-    flex-direction: row;
-    gap: 28px;
-  }
-
-  .formulaDescription + .ordinaryText {
-    height: 128px;
-  }
-
-  .temporarySymbol {
-    font-size: 22px;
-    width: 22px;
-  }
-
-  .submitBtn {
-    min-height: 56px;
-  }
-
-  .boldTextBtn {
-    font-size: 16px;
-    line-height: 24px;
-  }
-
-  .userNorma {
-    font-size: 15px;
-    line-height: 22px;
-    display: inline;
-  }
+.recipeDetails p {
+  margin: 0;
+}
+.truncated {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 250px;
+}
+.truncatedH2 {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 390px;
 }
 
-/*Desktop*/
-@media screen and (min-width: 1440px) {
-  .userSettingForm {
-    padding: 0 0 40px 40px;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .userPreferences {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .formNameEmail {
-    margin-bottom: 0;
-  }
-
-  .inputBox {
-    width: 400px;
-  }
-
-  .formulaDescription + .ordinaryText {
-    height: fit-content;
-    width: 400px;
-  }
-
-  .ordinaryText {
-    max-width: 400px;
-  }
-
-  .boldText {
-    max-width: 400px;
-  }
-
-  .submitBtn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 56px;
-  }
-
+.empty {
+  opacity: 0.5;
+  font-style: italic;
 }
-/* ///////////////////////////////////////////////////////////// */
-
-
-
-
-
-
-
-
-
-
-@media screen and (min-width: 768px) {
-  .water_item_content {
-    width: 191px;
-    height: 86px;
-    padding: 0 20px;
-  }
-  .icon_water_glass {
-    width: 44px;
-    height: 45px;
-  }
-  .water_info {
-    width: fit-content;
-  }
-  .water_amount {
-    font-size: 15px;
-    line-height: 1.49;
-    margin-bottom: 0;
-  }
-  .water_date {
-    line-height: 1.87;
-  }
-  .icon_action {
-    width: 16px;
-    height: 16px;
-  }
-}
-

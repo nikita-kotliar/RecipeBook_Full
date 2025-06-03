@@ -1,0 +1,99 @@
+.modal {
+  background-color: var(--color-bg-card);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  color: var(--color-text-main);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  padding: 24px;
+  box-shadow: var(--color-box-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15%;
+  background-color: var(--color-button);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.closeBtn:hover {
+  background-color: var(--color-button-hover);
+}
+
+.svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--color-text-main);
+  stroke: var(--color-text-main);
+}
+
+.modalTextBox {
+  text-align: center;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.modalText {
+  font-size: 16px;
+  color: var(--color-text-main);
+}
+
+.modalBtnBox {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btnDelete,
+.btnCancel {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btnDelete {
+  background-color: var(--color-button);
+  color: var(--color-text-main);
+}
+
+.btnDelete:hover {
+  background-color: var(--color-button-hover);
+}
+
+.btnCancel {
+  background-color: transparent;
+  border: 1px solid var(--color-border-textarea);
+  color: var(--color-text-main);
+}
+
+.btnCancel:hover {
+  background-color: var(--color-button-hover);
+  color: var(--color-text-main);
+}

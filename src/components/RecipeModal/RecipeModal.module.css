@@ -1,0 +1,92 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalDiv {
+  background-color: var(--color-bg-card);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  color: var(--color-text-main);
+  position: relative;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 24px;
+}
+
+.modal {
+  overflow-y: auto;
+  max-height: 100%;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-button) transparent;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: var(--color-text-main);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15%;
+  background-color: var(--color-button);
+}
+
+.closeBtn:hover {
+  background-color: var(--color-button-hover);
+}
+
+.imageContainer {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 16px;
+  text-align: center;
+  color: var(--color-text-main);
+  padding: 0 26px;
+}
+
+.section {
+  margin-bottom: 16px;
+}
+
+.section h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: var(--color-text-main);
+}
+
+.section p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text-main);
+}

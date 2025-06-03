@@ -1,14 +1,12 @@
 import { useParams } from "react-router-dom";
-// import RecipeDetailedInfo from "../../components/RecipeDetailedInfo/RecipeDetailedInfo.jsx";
 import RecipesList from "../../components/RecipesList/RecipesList";
 
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchRecipesList, // Операція для отримання всіх рецептів
-  fetchRecipesDetailsById, // Операція для отримання деталей рецепту
-} from "../../redux/recipes/operations.js"; // Оновлено для рецептів
-// import { parseDateTime } from "../../helpers/parseDate.js"; // Якщо потрібно
+  fetchRecipesList, 
+  fetchRecipesDetailsById, 
+} from "../../redux/recipes/operations.js"; 
 import { useTour } from "@reactour/tour";
 import { selectIsNewUser } from "../../redux/auth/selectors.js";
 import { setNewUser } from "../../redux/auth/slice.js";
@@ -16,16 +14,16 @@ import css from "./RecipesPage.module.css";
 
 const RecipePage = () => {
   const { setIsOpen } = useTour();
-  const { recipeId } = useParams(); // Отримуємо ID рецепту для перегляду деталей
+  const { recipeId } = useParams(); 
   const dispatch = useDispatch();
   const [isRefreshingPage, setIsRefreshingPage] = useState(true);
   const isNewUser = useSelector(selectIsNewUser);
 
   useEffect(() => {
     if (isRefreshingPage) {
-      dispatch(fetchRecipesList()); // Отримуємо всі рецепти
+      dispatch(fetchRecipesList()); 
       if (recipeId) {
-        dispatch(fetchRecipesDetailsById(recipeId)); // Отримуємо деталі рецепту, якщо є ID
+        dispatch(fetchRecipesDetailsById(recipeId)); 
       }
       setIsRefreshingPage(false);
     }
@@ -40,9 +38,7 @@ const RecipePage = () => {
 
   return (
     <div className={css.recipePage}>
-      <RecipesList /> {/* Головна інформація про рецепти */}
-       {/* Головна інформація про рецепти */}
-      {/* <RecipeDetailedInfo /> Детальна інформація про конкретний рецепт */}
+      <RecipesList />
     </div>
   );
 };
