@@ -125,7 +125,6 @@ export const EditRecipeModal = ({ recipe, onClose }) => {
                     autoResizeTextarea(instructionsRef.current);
                   }}
                   className={css.textarea}
-                  required
                 />
               </label>
 

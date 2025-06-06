@@ -1,6 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import clsx from "clsx";
 import { useState } from "react";
+import SignFormFooter from "../SignFormFooter/SignFormFooter.jsx";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import * as yup from "yup";
@@ -11,6 +12,8 @@ import GoogleBtn from "../GoogleBtn/GoogleBtn.jsx";
 import LoaderComponent from "../LoaderComponent/LoaderComponent.jsx";
 import styles from "./SignInForm.module.css";
 import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher.jsx";
+
 
 const SignInForm = () => {
   const { t } = useTranslation();
@@ -45,80 +48,93 @@ const SignInForm = () => {
   };
 
   return (
-    <form className={styles.signInForm} onSubmit={handleSubmit(onSubmit)}>
-      <h1 className={styles.signInFormTitle}>{t("signInTitle")}</h1>
-      <div className={styles.signInFormInputWrapper}>
-        <label className={styles.signInFormLabel}>
-          {t("email")}
-          <input
-            type="email"
-            className={clsx(styles.signInFormInput, {
-              [styles.signInFormInputError]: errors.email?.message,
-            })}
-            {...register("email")}
-            placeholder={t("enterEmail")}
-          />
-          {errors.email?.message ? (
-            <p className={styles.signInFormInputErrorMessage}>
-              {errors.email?.message}
-            </p>
-          ) : (
-            ""
-          )}
-        </label>
-
-        <label className={styles.signInFormLabel}>
-          {t("password")}
-          <div className={styles.signInFormIconInputWrapper}>
+    <>
+      <form className={styles.signInForm} onSubmit={handleSubmit(onSubmit)}>
+        <h1 className={styles.signInFormTitle}>
+          <span className={styles.header}>
+            <LanguageSwitcher isRegistrationPage={true} />
+          </span>
+          {t("signInTitle")}
+        </h1>
+        <div className={styles.signInFormInputWrapper}>
+          <label className={styles.signInFormLabel}>
+            {t("email")}
             <input
-              type={showPassword ? "text" : "password"}
+              type="email"
               className={clsx(styles.signInFormInput, {
-                [styles.signInFormInputError]: errors.password?.message,
+                [styles.signInFormInputError]: errors.email?.message,
               })}
-              {...register("password")}
-              placeholder={t("enterPassword")}
+              {...register("email")}
+              placeholder={t("enterEmail")}
             />
+            {errors.email?.message ? (
+              <p className={styles.signInFormInputErrorMessage}>
+                {errors.email?.message}
+              </p>
+            ) : (
+              ""
+            )}
+          </label>
 
-            <button
-              className={styles.signInFormIconButton}
-              type="button"
-              onClick={handleClick}
-            >
-              {showPassword === false ? (
-                <svg className={styles.signInFormInputIcon}>
-                  <use xlinkHref={svgSprite + "#icon-eye-off"} />
-                </svg>
-              ) : (
-                <svg className={styles.signInFormInputIcon}>
-                  <use xlinkHref={svgSprite + "#icon-eye"} />
-                </svg>
-              )}
-            </button>
-          </div>
-          {errors.password?.message ? (
-            <p className={styles.signInFormInputErrorMessage}>
-              {errors.password?.message}
-            </p>
-          ) : (
-            ""
-          )}
-        </label>
-      </div>
-      <div className={styles.signInFormButtonContainer}>
-        <button
-          disabled={isLoading && true}
-          className={
-            !isLoading
-              ? `${styles.signInFormButton}`
-              : `${styles.signInFormButtonDisabled}`
-          }
-          type="submit"
-        >
-          {isLoading ? <LoaderComponent height={44} width={44} /> : t("signIn")}
-        </button>
-        <GoogleBtn />
-      </div>
-    </form>
+          <label className={styles.signInFormLabel}>
+            {t("password")}
+            <div className={styles.signInFormIconInputWrapper}>
+              <input
+                type={showPassword ? "text" : "password"}
+                className={clsx(styles.signInFormInput, {
+                  [styles.signInFormInputError]: errors.password?.message,
+                })}
+                {...register("password")}
+                placeholder={t("enterPassword")}
+              />
+
+              <button
+                className={styles.signInFormIconButton}
+                type="button"
+                onClick={handleClick}
+              >
+                {showPassword === false ? (
+                  <svg className={styles.signInFormInputIcon}>
+                    <use xlinkHref={svgSprite + "#icon-eye-off"} />
+                  </svg>
+                ) : (
+                  <svg className={styles.signInFormInputIcon}>
+                    <use xlinkHref={svgSprite + "#icon-eye"} />
+                  </svg>
+                )}
+              </button>
+            </div>
+            {errors.password?.message ? (
+              <p className={styles.signInFormInputErrorMessage}>
+                {errors.password?.message}
+              </p>
+            ) : (
+              ""
+            )}
+          </label>
+        </div>
+        <div className={styles.signInFormButtonContainer}>
+          <button
+            disabled={isLoading && true}
+            className={
+              !isLoading
+                ? `${styles.signInFormButton}`
+                : `${styles.signInFormButtonDisabled}`
+            }
+            type="submit"
+          >
+            {isLoading ? <LoaderComponent height={44} width={44} /> : t("signIn")}
+          </button>
+          <GoogleBtn />
+
+        </div>
+        <SignFormFooter
+          text={t("noAccount")}
+          link="/signup"
+          linkName={t("signUp")}
+        />
+      </form>
+    </>
   );
 };
 

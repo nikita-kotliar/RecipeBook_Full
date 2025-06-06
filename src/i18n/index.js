@@ -4,15 +4,15 @@ import { initReactI18next } from "react-i18next";
 import { LOCALS } from "./constants";
 
 import translationEN from "/src/locales/en/translation.json";
-import translationDE from "/src/locales/de/translation.json";
+import translationES from "/src/locales/es/translation.json";
 import translationUK from "/src/locales/uk/translation.json";
 
 const resources = {
   [LOCALS.EN]: {
     translation: translationEN,
   },
-  [LOCALS.DE]: {
-    translation: translationDE,
+  [LOCALS.ES]: {
+    translation: translationES,
   },
   [LOCALS.UK]: {
     translation: translationUK,

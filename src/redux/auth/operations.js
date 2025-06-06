@@ -71,6 +71,7 @@ export const getUserInfo = createAsyncThunk(
 export const updateUserProfile = createAsyncThunk(
   "auth/update",
   async (userData, thunkAPI) => {
+    console.log("userData in updateUserProfile:", userData);
     try {
       const response = await updateUserInfo(userData);
       return response.data;

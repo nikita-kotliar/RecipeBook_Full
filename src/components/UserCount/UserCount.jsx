@@ -1,18 +1,12 @@
 import { useState, useEffect } from "react";
-import photo1 from "/img/userCount/photo1.png";
-import photo2 from "/img/userCount/photo2.png";
-import photo3 from "/img/userCount/photo3.png";
 import styles from "./UserCount.module.css";
 import { requestUserCount } from "../../api/auth";
 import { useTranslation } from "react-i18next";
 
 const UserCount = () => {
   const { t } = useTranslation();
-  const [userCount, setUserCount] = useState();
-  const translatedText = t("userCountText", {
-    count: userCount,
-    userCountTextColor: styles.userCountTextColor,
-  });
+  const [userCount, setUserCount] = useState(null);
+
   useEffect(() => {
     async function getCount() {
       try {
@@ -24,30 +18,13 @@ const UserCount = () => {
     }
 
     getCount();
-  });
+  }, []); 
 
   return (
     <div className={styles.userCountComponent}>
-      <ul className={styles.userCountList}>
-        <li className={styles.userCountItem}>
-          <img src={photo1} alt="user" />
-        </li>
-        <li className={styles.userCountItem}>
-          <img src={photo2} alt="user" />
-        </li>
-        <li className={styles.userCountItem}>
-          <img src={photo3} alt="user" />
-        </li>
-      </ul>
-      {/* <p className={styles.userCountText}>
-        Our{" "}
-        <span className={styles.userCountTextColor}> {userCount} happy</span>{" "}
-        customers
-      </p> */}
-      <p
-        className={styles.userCountText}
-        dangerouslySetInnerHTML={{ __html: translatedText }}
-      />
+      <p>
+        {t("numberUsers")}: {userCount !== null ? userCount : "..."}
+      </p>
     </div>
   );
 };

@@ -152,6 +152,11 @@ const UserSettingsForm = ({ handleClose }) => {
           {errors.avatar && <p>{errors.avatar.message}</p>}
         </label>
       </div>
+      {isLoading && (
+        <span className={css.loaderWrapper}>
+          <LoaderComponent />
+        </span>
+      )}
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -290,12 +295,8 @@ const UserSettingsForm = ({ handleClose }) => {
           className={`${css.submitBtn} ${css.boldTextBtn}`}
         >
           {t("save")}
-          {isLoading && (
-            <div className={css.loaderWrapper}>
-              <LoaderComponent height={56} width={56} />
-            </div>
-          )}
         </button>
+
       </form>
     </>
   );

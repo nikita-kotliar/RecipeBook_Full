@@ -2,9 +2,9 @@ import { forwardRef, useEffect } from "react";
 import css from "./LanguageSwitcherBar.module.css";
 import { LOCALS } from "../../i18n/constants";
 import i18next from "i18next";
-
+import clsx from "clsx";
 const LanguageSwitcherBar = forwardRef(function LanguageSwitcherBar(
-  { onClose },
+  { onClose, isRegistrationPage = false },
   ref
 ) {
   const langs = Object.values(LOCALS);
@@ -20,7 +20,7 @@ const LanguageSwitcherBar = forwardRef(function LanguageSwitcherBar(
   }, [onClose, ref]);
 
   return (
-    <ul className={css.barPopover} ref={ref}>
+    <ul className={clsx(css.barPopover, {[css.barPopoverRegister]: isRegistrationPage, })} ref={ref}>
       {langs.map((len) => (
         <li key={len}>
           <button

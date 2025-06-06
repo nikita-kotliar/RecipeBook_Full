@@ -7,19 +7,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 5px;
-  border-radius: 20px;
+  gap: 10px;
+  border-radius: 15px;
   border: none;
-  padding: 10px 10px;
-  background-color: #323f47;
+  padding: 10px 15px;
+  background-color: var(--color-primary);
   font-size: 14px;
   font-weight: 700;
-  color: var(--white);
+  color: var(--color-text-main);
 }
 
 .icon {
   fill: none;
-  stroke: #fff;
+  stroke: var(--color-text-main);
   width: 20px;
   height: 20px;
   pointer-events: none;

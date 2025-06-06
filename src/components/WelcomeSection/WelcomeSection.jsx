@@ -12,19 +12,18 @@ const WelcomeSection = () => {
   return (
     <div className={css.welcomeSection}>
       <div className={css.header}>
-        {/* <Logo /> */}
         <LanguageSwitcher />
       </div>
       <div className={css.welcomeSectionContainer}>
-        <p className={css.welcomeSectionDescribe}>{t("recordWater")}</p>
-        <h1 className={css.welcomeSectionTitle}>{t("trackerTitle")}</h1>
+        <p className={css.welcomeSectionDescribe}>{t("recordRecipes")}</p>
+        <h1 className={css.welcomeSectionTitle}>{t("mainTitle")}</h1>
         <div className={css.welcomeSectionLinks}>
           {isLoggedIn ? (
             <Link
               to={`/recipes`}
               className={`${css.welcomeSectionLink} ${css.welcomeSectionLinkSignup}`}
             >
-              {t("checkTracker")}
+              {t("checkRecipes")}
             </Link>
           ) : (
             <>
@@ -32,7 +31,7 @@ const WelcomeSection = () => {
                 to={`/signup`}
                 className={`${css.welcomeSectionLink} ${css.welcomeSectionLinkSignup}`}
               >
-                {t("tryTracker")}
+                {t("register")}
               </Link>
               <Link
                 to={`/signin`}

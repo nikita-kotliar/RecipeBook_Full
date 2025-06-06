@@ -5,7 +5,8 @@ import clsx from "clsx";
 import svgIcons from "../../assets/icons.svg";
 import LanguageSwitcherBar from "../LanguageSwitcherBar/LanguageSwitcherBar";
 import { LOCALS } from "../../i18n/constants";
-const LanguageSwitcher = () => {
+const LanguageSwitcher = ({ isRegistrationPage = false }) => {
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const barPopoverRef = useRef(null);
 
@@ -29,6 +30,7 @@ const LanguageSwitcher = () => {
   return (
     <div className={css.languageSwitcher}>
       <button
+        type="button"
         onClick={toggleDropdown}
         className={css.currentLanguage}
         name="openPopover"
@@ -39,7 +41,7 @@ const LanguageSwitcher = () => {
         </svg>
       </button>
       {isDropdownOpen && (
-        <LanguageSwitcherBar onClose={handleClose} ref={barPopoverRef} />
+        <LanguageSwitcherBar onClose={handleClose} ref={barPopoverRef} isRegistrationPage={isRegistrationPage} />
       )}
     </div>
   );

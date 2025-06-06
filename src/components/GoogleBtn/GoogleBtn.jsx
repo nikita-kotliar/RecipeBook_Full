@@ -10,7 +10,7 @@ const GoogleBtn = () => {
 
   const { t } = useTranslation();
   return (
-    <button className={css.btn} onClick={handleLogin}>{t("continueWithGoogle")}</button>
+    <button type="button" className={css.btn} onClick={handleLogin}>{t("continueWithGoogle")}</button>
   );
 };
 

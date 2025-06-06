@@ -36,16 +36,6 @@ const RecipeList = () => {
   const [deletingRecipeId, setDeletingRecipeId] = useState(null);
   const [isFetchingRecipes, setIsFetchingRecipes] = useState(false);
 
-  const [isLightTheme, setIsLightTheme] = useState(() => {
-    return localStorage.getItem("theme") === "light";
-  });
-
-  useEffect(() => {
-    document.body.classList.toggle("light-theme", isLightTheme);
-    localStorage.setItem("theme", isLightTheme ? "light" : "dark");
-  }, [isLightTheme]);
-
-  const toggleTheme = () => setIsLightTheme((prev) => !prev);
 
   const handleDeleteRecipe = async (id) => {
     try {
@@ -140,12 +130,6 @@ const RecipeList = () => {
 
           <button onClick={() => setShowAddModal(true)} className={css.addButton}>
             {t("addNewRecipe")}
-          </button>
-          <button onClick={toggleTheme} className={css.themeButton}>
-            <svg className={css.icon}>
-              <use xlinkHref={svg + (isLightTheme ? "#icon-theme" : "#icon-theme-light")}></use>
-            </svg>
-
           </button>
 
           <UserBar className={css.userBar} />

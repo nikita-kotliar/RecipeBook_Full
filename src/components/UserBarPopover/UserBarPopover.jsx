@@ -1,5 +1,7 @@
 import { forwardRef, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import i18next from "i18next";
+import { LOCALS } from "../../i18n/constants";
 import svgIcons from "../../assets/icons.svg";
 import { useModal } from "../../hooks/useModal.js";
 import LogOutModal from "../LogOutModal/LogOutModal.jsx";
@@ -18,6 +20,25 @@ const UserBarPopover = forwardRef(function UserBarPopover(
   const scrollPosition = window.scrollY;
   const [userBarPopoverTopPosition, setUserBarPopoverTopPosition] = useState(64);
   const setModal = useModal();
+
+  // Тема (light/dark)
+  const [isLightTheme, setIsLightTheme] = useState(() => {
+    return localStorage.getItem("theme") === "light";
+  });
+
+  const toggleTheme = () => setIsLightTheme((prev) => !prev);
+
+  useEffect(() => {
+    document.body.classList.toggle("light-theme", isLightTheme);
+    localStorage.setItem("theme", isLightTheme ? "light" : "dark");
+  }, [isLightTheme]);
+
+  // Зміна мови
+  const langs = Object.values(LOCALS);
+
+  const handleLanguageChange = (lng) => {
+    i18next.changeLanguage(lng);
+  };
 
   const stepsLoc = [
     {
@@ -46,7 +67,7 @@ const UserBarPopover = forwardRef(function UserBarPopover(
   ];
 
   const startTour = () => {
-    onClose(); // Закриваємо меню
+    onClose();
     setSteps(stepsLoc);
     setCurrentStep(0);
     setIsOpen(true);
@@ -58,12 +79,12 @@ const UserBarPopover = forwardRef(function UserBarPopover(
   }, [setModal]);
 
   const openSettingsModal = useCallback(() => {
-    onClose(); // Закриваємо меню
+    onClose();
     setModal(<UserSettingsModal onClose={closeModal} />);
   }, [setModal, closeModal, onClose]);
 
   const openLogOutModal = useCallback(() => {
-    onClose(); // Закриваємо меню
+    onClose();
     setModal(<LogOutModal onClose={closeModal} />);
   }, [setModal, closeModal, onClose]);
 
@@ -88,18 +109,49 @@ const UserBarPopover = forwardRef(function UserBarPopover(
       ref={ref}
     >
       <ul className={styles.userBarPopoverList}>
+        {/* Кнопки вибору мови */}
+        <li className={`${styles.userBarPopoverListItem} ${styles.userBarPopoverListItemLanguage}`}>
+          {langs.map((lng) => (
+            <button
+              key={lng}
+              className={styles.languageButton}
+              onClick={() => handleLanguageChange(lng)}
+            >
+              {lng.toUpperCase()}
+            </button>
+          ))}
+        </li>
+
         <li className={styles.userBarPopoverListItem} onClick={openSettingsModal}>
-          <svg className={styles.userBarPopoverIconSettings}>
+          <svg className={`${styles.userBarPopoverIconSettings} ${styles.iconparameters}`}>
             <use xlinkHref={svgIcons + "#icon-settings"}></use>
           </svg>
           {t("settingLink")}
         </li>
+
+        <li className={styles.userBarPopoverListItem} onClick={toggleTheme}>
+          <svg
+            className={`${styles.userBarPopoverIconSettings} ${
+              isLightTheme ? styles.themeMoonIcon : styles.themeSunIcon
+            }`}
+          >
+            <use
+              xlinkHref={
+                svgIcons + (isLightTheme ? "#icon-theme" : "#icon-theme-light")
+              }
+            ></use>
+          </svg>
+
+          {isLightTheme ? t("darkTheme") : t("lightTheme")}
+        </li>
+
         <li className={styles.userBarPopoverListItem} onClick={startTour}>
           <svg className={styles.userBarPopoverIconTour}>
             <use xlinkHref={svgIcons + "#icon-tour"}></use>
           </svg>
           {t("use")}
         </li>
+
         <li
           className={`${styles.userBarPopoverListItem} ${styles.userBarPopoverListItemLogOut}`}
           onClick={openLogOutModal}

@@ -21,10 +21,13 @@
   --color-border-textarea: #444444;
   --color-modal-bg: #1e1e1e;
 
+  --color-main-box-shadow: 0 4px 50px 0 rgba(0, 0, 0, 0.1);
   --color-box-shadow: 5px 5px 7px rgba(0, 0, 0, 0.4);
   --color-uploadContainer: rgba(0, 0, 0, 0.6);
 
   --transition-main: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --color-box-shadow-main-photo: -10px 5px 50px rgba(0, 0, 0, 0.93);
+  --color-box-shadow-user-count: 0px -0px 40px #3f6b33;
 }
 
 .light-theme {

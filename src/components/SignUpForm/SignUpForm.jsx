@@ -10,6 +10,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../../redux/auth/operations";
 import { selectIsLoading } from "../../redux/auth/selectors.js";
 import LoaderComponent from "../LoaderComponent/LoaderComponent.jsx";
+import SignFormFooter from "../SignFormFooter/SignFormFooter";
+import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher.jsx";
+
 
 const SignUpForm = () => {
   const { t } = useTranslation();
@@ -53,116 +56,92 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className={styles.signUpComponent}>
+    <div className={styles.signUpForm}>
       <form onSubmit={handleSubmit(submitForm)}>
-        <h2 className={styles.signUpTitle}>{t("signUpTitle")}</h2>
-        <div className={styles.signUpForm}>
-          <label className={styles.signUpLabel}>
+        <h2 className={styles.signUpFormTitle}>
+          <span className={styles.header}>
+            <LanguageSwitcher isRegistrationPage={true} />
+
+          </span>
+          {t("signUpTitle")}
+        </h2>
+        <div className={styles.signUpFormInputWrapper}>
+          <label className={styles.signUpFormLabel}>
             {t("email")}
             <input
-              className={
-                errors.email?.message
-                  ? `${styles.signUpInputError}`
-                  : `${styles.signUpInput}`
-              }
+              className={`${styles.signUpFormInput} ${errors.email ? styles.signUpFormInputError : ""}`}
               {...register("email")}
               placeholder={t("enterEmail")}
             />
-            {errors.email?.message ? (
-              <p className={styles.signUpErrorMessage}>
-                {errors.email?.message}
+            {errors.email && (
+              <p className={styles.signUpFormInputErrorMessage}>
+                {errors.email.message}
               </p>
-            ) : (
-              ""
             )}
           </label>
-
-          <label className={styles.signUpLabel}>
+          
+          <label className={styles.signUpFormLabel}>
             <span>{t("password")}</span>
-            <span className={styles.signUpPassword}>
+            <span className={styles.signUpFormIconInputWrapper}>
               <input
                 type={showPassword ? "text" : "password"}
-                className={
-                  errors.password?.message
-                    ? `${styles.signUpInputError}`
-                    : `${styles.signUpInput}`
-                }
+                className={`${styles.signUpFormInput} ${errors.password ? styles.signUpFormInputError : ""}`}
                 {...register("password")}
                 placeholder={t("enterPassword")}
               />
               <button
-                className={styles.passwordIconBtn}
+                className={styles.signUpFormIconButton}
                 type="button"
                 onClick={togglePasswordVisibility}
               >
-                {showPassword === false ? (
-                  <svg className={styles.passwordIcon}>
-                    <use xlinkHref={svgSprite + "#icon-eye-off"} />
-                  </svg>
-                ) : (
-                  <svg className={styles.passwordIcon}>
-                    <use xlinkHref={svgSprite + "#icon-eye"} />
-                  </svg>
-                )}
+                <svg className={styles.signUpFormInputIcon}>
+                  <use xlinkHref={svgSprite + (showPassword ? "#icon-eye" : "#icon-eye-off")} />
+                </svg>
               </button>
             </span>
-            {errors.password?.message ? (
-              <p className={styles.signUpErrorMessage}>
-                {errors.password?.message}
+            {errors.password && (
+              <p className={styles.signUpFormInputErrorMessage}>
+                {errors.password.message}
               </p>
-            ) : (
-              ""
             )}
-            
           </label>
-
-          <label className={styles.signUpLabel}>
+          
+          <label className={styles.signUpFormLabel}>
             <span>{t("repeatPassword")}</span>
-            <span className={styles.signUpPassword}>
+            <span className={styles.signUpFormIconInputWrapper}>
               <input
                 type={showPasswordRepeat ? "text" : "password"}
-                className={
-                  errors.repeatpassword?.message
-                    ? `${styles.signUpInputError}`
-                    : `${styles.signUpInput}`
-                }
+                className={`${styles.signUpFormInput} ${errors.repeatpassword ? styles.signUpFormInputError : ""}`}
                 {...register("repeatpassword")}
                 placeholder={t("repeatPassword")}
               />
               <button
-                className={styles.passwordIconBtn}
+                className={styles.signUpFormIconButton}
                 type="button"
                 onClick={togglePasswordRepeatVisibility}
               >
-                {showPasswordRepeat === false ? (
-                  <svg className={styles.passwordIcon}>
-                    <use xlinkHref={svgSprite + "#icon-eye-off"} />
-                  </svg>
-                ) : (
-                  <svg className={styles.passwordIcon}>
-                    <use xlinkHref={svgSprite + "#icon-eye"} />
-                  </svg>
-                )}
+                <svg className={styles.signUpFormInputIcon}>
+                  <use xlinkHref={svgSprite + (showPasswordRepeat ? "#icon-eye" : "#icon-eye-off")} />
+                </svg>
               </button>
             </span>
-            {errors.repeatpassword?.message ? (
-              <p className={styles.signUpErrorMessage}>
-                {errors.repeatpassword?.message}
+            {errors.repeatpassword && (
+              <p className={styles.signUpFormInputErrorMessage}>
+                {errors.repeatpassword.message}
               </p>
-            ) : (
-              ""
             )}
           </label>
         </div>
+          
         {isLoading ? (
-          <div className={styles.signUpLoader}>
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
             <LoaderComponent height={44} width={44} />
           </div>
         ) : (
-          <div className={styles.signUpButtonsContainer}>
+          <div className={styles.signUpFormButtonContainer}>
             <button
-              disabled={isLoading && true}
-              className={styles.signUpBtn}
+              disabled={isLoading}
+              className={styles.signUpFormButton}
               type="submit"
             >
               {t("signUp")}
@@ -170,66 +149,17 @@ const SignUpForm = () => {
             <GoogleBtn />
           </div>
         )}
+    
+        <SignFormFooter
+          text={t("alreadyHaveAccount")}
+          link="/signin"
+          linkName={t("signIn")}
+        />
       </form>
     </div>
+
   );
 };
 
 export default SignUpForm;
 
-
-// import React, { useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { signUp } from "../../redux/auth/operations";
-// import { selectIsLoading } from "../../redux/auth/selectors";
-
-// const SignUpForm = () => {
-//   const dispatch = useDispatch();
-//   const isLoading = useSelector(selectIsLoading);
-
-//   const [email, setEmail] = useState("");
-//   const [password, setPassword] = useState("");
-//   const [showVerification, setShowVerification] = useState(false);
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       await dispatch(signUp({ email, password })).unwrap();
-//       setShowVerification(true); // показуємо модалку з кодом підтвердження
-//     } catch (error) {
-//       alert(error || "Помилка реєстрації");
-//     }
-//   };
-
-//   return (
-//     <>
-//       {!showVerification ? (
-//         <form onSubmit={handleSubmit}>
-//           <h2>Реєстрація</h2>
-//           <input
-//             type="email"
-//             placeholder="Email"
-//             value={email}
-//             onChange={(e) => setEmail(e.target.value)}
-//             required
-//           />
-//           <input
-//             type="password"
-//             placeholder="Пароль"
-//             value={password}
-//             onChange={(e) => setPassword(e.target.value)}
-//             required
-//             minLength={5}
-//           />
-//           <button type="submit" disabled={isLoading}>
-//             Зареєструватись
-//           </button>
-//         </form>
-//       ) : (
-//         <VerificationModal email={email} />
-//       )}
-//     </>
-//   );
-// };
-
-// export default SignUpForm;
