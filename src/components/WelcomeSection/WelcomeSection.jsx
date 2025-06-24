@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-// import Logo from "../Logo/Logo";
 import css from "./WelcomeSection.module.css";
 import LanguageSwitcher from "../LanguageSwitcher/LanguageSwitcher";
 import { useTranslation } from "react-i18next";

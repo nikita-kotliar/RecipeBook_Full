@@ -2,26 +2,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* min-height: 100vh; */
   max-width: 375px;
   flex-direction: column;
   gap: 16px;
   margin: auto;
-  padding: 16px;  
+  padding: 16px; 
+  position: relative; 
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 600px) {
   .container {
-    max-width: 768px;
+    max-width: 600px;
     padding: 32px;
+    flex-direction: row;
   }
 }
 
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1024px) {
   .container {
-    flex-direction: row;
+    
     gap: 32px;
-    max-width: 1440px;
+    max-width: 1024px;
   }
 }
 

@@ -70,7 +70,7 @@ const UserBar = ({ name }) => {
           handleOutsideClick={handleOutsideClick}
           ref={userBarPopoverRef}
           animate={animatePopover}
-          onClose={closePopover} // ➕ додано
+          onClose={closePopover} 
         />
       )}
     </div>

@@ -1,13 +1,14 @@
-
-
 .recipe_item_content {
   background-color: var(--color-bg-card);
   border-radius: 16px;
   color: var(--color-text-main);
   display: flex;
+  flex-direction: column;
   gap: 20px;
   transition: background-color var(--transition-main);
   z-index: 1;
+  box-sizing: content-box;
+  width: 100%;
 }
 
 .recipe_item_content h2 {
@@ -18,12 +19,13 @@
 
 .recipeImage {
   position: relative;
-  height: 100%;
-  aspect-ratio: 1;
+  width: 100%;
+  aspect-ratio: 3;
   flex-shrink: 0;
-  border-radius: 12px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
   overflow: hidden;
-  border: 1px solid var(--color-border);
+  box-sizing: content-box;
 }
 
 .recipeImage img {
@@ -32,6 +34,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  box-sizing: border-box;
 }
 
 .uploadContainer {
@@ -68,7 +71,7 @@ ul {
   padding-left: 20px;
   margin: 10px 0;
   color: var(--color-text-secondary);
-  display: flex; 
+  display: flex;
   gap: 8px;
   margin: 0;
   padding: 0;
@@ -87,8 +90,9 @@ p {
   gap: 8px;
   z-index: 10;
   position: absolute;
-  bottom: 25px;
-  right: 13px;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .editButton,
@@ -114,11 +118,10 @@ p {
   background-color: var(--color-button-hover);
 }
 
-
 .favoriteButton svg {
-  transform: translate(.8px, .8px);
+  transform: translate(0.8px, 0.8px);
 }
-.icon_action{
+.icon_action {
   fill: var(--color-icon-inactive);
   stroke: var(--color-icon-inactive);
   transition: fill var(--transition-main);
@@ -145,9 +148,8 @@ p {
   backdrop-filter: blur(5px);
 }
 
-
 .recipeDetails {
-  padding: 10px 0;
+  padding: 10px 10px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -167,10 +169,58 @@ p {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  width: 390px;
+  width: 280px;
 }
 
 .empty {
   opacity: 0.5;
   font-style: italic;
+}
+
+@media (min-width: 600px) {
+  .truncatedH2 {
+    width: 100%;
+  }
+  .truncated {
+    width: 100%;
+  }
+  .recipeDetails {
+    padding: 10px 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .recipe_item_content {
+    gap: 20px;
+    flex-direction: row;
+  }
+  .recipeImage {
+    height: 100%;
+    width: auto;
+    aspect-ratio: 1;
+  }
+
+  .container_buttons {
+    margin-top: auto;
+    align-items: center;
+    gap: 8px;
+    bottom: 25px;
+    right: 13px;
+    transform: none;
+    left: unset;
+  }
+
+  .recipeDetails {
+    padding: 26px 10px;
+  }
+  .truncated {
+    width: 490px;
+  }
+  .truncatedH2 {
+    width: 590px;
+  }
+  .recipeImage {
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 0;
+  }
 }

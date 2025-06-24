@@ -3,10 +3,10 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 32px 16px;
   border-radius: 30px;
   width: 100%;
-  height: 353px; /* мобільна висота */
+  min-height: 90vh; 
+  height: 100%;
   overflow: hidden;
   color: #fff;
 
@@ -35,12 +35,9 @@
   font-weight: 700;
 }
 
-@media screen and (min-width: 768px) {
-  /* поки залишаю пусто */
+@media screen and (min-width: 600px) {
 }
 
-@media screen and (min-width: 1440px) {
-  .advantagesSection {
-    height: 736px; /* десктоп висота */
-  }
+@media screen and (min-width: 1024px) {
+
 }

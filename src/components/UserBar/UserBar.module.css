@@ -17,9 +17,7 @@
   transition: var(--transition-main);
 }
 
-/* .userBar:hover {
-  background-color: var(--color-button-hover);
-} */
+
 
 .userBarText {
   max-width: 100px;
@@ -42,6 +40,8 @@
 }
 
 .userBarIcon {
+  opacity: 0;
+  display: none;
   fill: none;
   stroke: var(--color-button-hover);
   width: 30px;

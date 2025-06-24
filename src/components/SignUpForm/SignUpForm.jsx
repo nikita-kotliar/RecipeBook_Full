@@ -52,7 +52,6 @@ const SignUpForm = () => {
   const submitForm = (data) => {
     const { email, password } = data;
     dispatch(signUp({ email, password }));
-    //! reset form
   };
 
   return (
@@ -60,7 +59,7 @@ const SignUpForm = () => {
       <form onSubmit={handleSubmit(submitForm)}>
         <h2 className={styles.signUpFormTitle}>
           <span className={styles.header}>
-            <LanguageSwitcher isRegistrationPage={true} />
+            <LanguageSwitcher />
 
           </span>
           {t("signUpTitle")}

@@ -1,5 +1,4 @@
-// src/onboarding/steps.jsx
-// import React from "react";
+
 import { useTranslation } from "react-i18next";
 import Joyride from "react-joyride";
 import { enableBody, styles } from "./onboardingStyles";
@@ -9,7 +8,7 @@ const TourSteps = ({ children }) => {
 
   const steps = [
     {
-      target: "body", // Перший крок - ціле тіло
+      target: "body", 
       content: (
         <div style={{ textAlign: "center" }}>
           <h2>{t("greatingH")}</h2>
@@ -62,17 +61,17 @@ const TourSteps = ({ children }) => {
     <>
       <Joyride
         steps={steps}
-        disableScrolling={true} // вимикаємо скролінг під час туру
+        disableScrolling={true} 
         callback={(data) => {
           if (data.status === "finished" || data.status === "skipped") {
-            enableBody(); // Розблоковуємо прокрутку після завершення туру
+            enableBody(); 
           }
         }}
-        styles={styles} // стилі для кастомізації вигляду
-        showProgress={true} // показує прогрес туру
-        showSkipButton={true} // кнопка пропуску
-        continuous={true} // безперервний тур
-        run={true} // автоматично запускає тур
+        styles={styles} 
+        showProgress={true} 
+        showSkipButton={true} 
+        continuous={true} 
+        run={true} 
         locale={{
           back: t("back"),
           close: t("close"),

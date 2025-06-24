@@ -40,7 +40,6 @@ const SignInForm = () => {
 
   const onSubmit = (data) => {
     dispatch(logIn(data));
-    //! reset form
   };
 
   const handleClick = () => {
@@ -52,7 +51,7 @@ const SignInForm = () => {
       <form className={styles.signInForm} onSubmit={handleSubmit(onSubmit)}>
         <h1 className={styles.signInFormTitle}>
           <span className={styles.header}>
-            <LanguageSwitcher isRegistrationPage={true} />
+            <LanguageSwitcher />
           </span>
           {t("signInTitle")}
         </h1>

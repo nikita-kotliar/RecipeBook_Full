@@ -1,16 +1,22 @@
 .signFormFooter {
   color: var(--color-text-secondary);
-  /* text-align: center; */
   margin-top: 15px;
   font-size: 17px;
   margin-left: 5px;
+  text-align: center;
 }
-
+.signFormFooter span {
+  margin-right: 10px;
+}
 
 .signFormFooterLink {
   font-weight: 700;
   text-decoration: underline;
   color: var(--color-text-main);
   display: inline-block;
-  margin-left: 10px;
+}
+@media screen and (min-width: 600px) {
+  .signFormFooter {
+    text-align: left;
+  }
 }

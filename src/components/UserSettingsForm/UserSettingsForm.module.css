@@ -1,4 +1,3 @@
-/* Контейнер аватарки */
 .userAvatar {
   display: flex;
   flex-direction: column;
@@ -50,7 +49,6 @@
   height: 120px;
 }
 
-/* Основна форма */
 .userSettingForm {
   display: flex;
   flex-direction: column;
@@ -63,7 +61,6 @@
   gap: 24px;
 }
 
-/* Групи полів */
 .formNameEmail,
 .formAbout {
   display: flex;
@@ -71,7 +68,6 @@
   gap: 16px;
 }
 
-/* Стиль міток */
 .boldText {
   font-weight: 600;
   font-size: 16px;
@@ -84,7 +80,6 @@
   flex-direction: column;
 }
 
-/* Поля вводу */
 .inputBox,
 .signUpInputError {
   width: 100%;
@@ -111,7 +106,6 @@
   border-color: var(--color-error);
 }
 
-/* Кнопка показу паролю */
 .passwordIconBtn {
   background: none;
   border: none;
@@ -125,19 +119,16 @@
 .passwordIcon {
   width: 20px;
   height: 20px;
-  /* fill: var(--color-text-main); */
   stroke: var(--color-text-main);
 
 }
 
-/* Контейнер поля з іконкою */
 span:has(.passwordIconBtn) {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-/* Повідомлення про помилки */
 .errorMessage,
 .signUpErrorMessage {
   color: red;
@@ -151,7 +142,6 @@ span:has(.passwordIconBtn) {
   margin-top: 4px;
 }
 
-/* Кнопка submit */
 .submitBtn {
   background-color: var(--color-button);
   color: var(--color-text-main);

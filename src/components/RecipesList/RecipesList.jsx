@@ -125,11 +125,22 @@ const RecipeList = () => {
             onClick={handleFavoritesToggle}
             className={css.favoriteToggleBtn}
           >
-            {showFavoritesOnly ? t("showAllRecipes") : t("showFavoritesOnly")}
+            <span className={css.buttonText}>
+              {showFavoritesOnly ? t("showAllRecipes") : t("showFavoritesOnly")}
+            </span>
+            <svg className={css.buttonIcon}>
+              <use xlinkHref={svg + "#icon-heart"} />
+            </svg>
           </button>
 
-          <button onClick={() => setShowAddModal(true)} className={css.addButton}>
-            {t("addNewRecipe")}
+          <button
+            onClick={() => setShowAddModal(true)}
+            className={css.addButton}
+          >
+            <span className={css.buttonText}>{t("addNewRecipe")}</span>
+            <svg className={css.buttonIcon}>
+              <use xlinkHref={svg + "#icon-plus"} />
+            </svg>
           </button>
 
           <UserBar className={css.userBar} />
@@ -156,12 +167,11 @@ const RecipeList = () => {
             <option value="title">{t("searchByTitle")}</option>
             <option value="ingredients">{t("searchByIngredients")}</option>
           </select>
-          
+
           <svg className={css.icon}>
             <use xlinkHref={svg + "#icon-chevron-down"}></use>
           </svg>
         </div>
-
       </div>
 
       {isFetchingRecipes ? (
@@ -201,7 +211,7 @@ const RecipeList = () => {
         <AddRecipeModal
           onClose={() => setShowAddModal(false)}
           onRecipeAdded={(newRecipe) => {
-            dispatch(setRecipes([...recipes, newRecipe])); // додати рецепт до списку
+            dispatch(setRecipes([...recipes, newRecipe])); 
             setShowAddModal(false);
           }}
         />

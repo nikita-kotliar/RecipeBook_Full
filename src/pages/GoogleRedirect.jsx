@@ -21,9 +21,9 @@ const GoogleRedirect = () => {
         accessToken: token,
       }));
 
-      navigate("/"); // Перенаправлення після входу
+      navigate("/"); 
     } else {
-      navigate("/login"); // Якщо щось пішло не так
+      navigate("/login"); 
     }
   }, [dispatch, location.search, navigate]);
 
