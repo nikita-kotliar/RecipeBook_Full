@@ -1,6 +1,6 @@
 import css from "./NotFoundPage.module.css";
 import { useNavigate } from "react-router-dom";
-import LoaderComponent from "../LoaderComponent/LoaderComponent.jsx";
+import LoaderComponent from "../../components/LoaderComponent/LoaderComponent.jsx";
 
 const NotFoundPage = () => {
   const navigate = useNavigate();
