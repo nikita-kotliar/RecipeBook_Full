@@ -127,13 +127,13 @@ const RecipesItem = ({
       <div className={css.recipeDetails}>
         <h2 className={css.truncatedH2}>{recipe.title}</h2>
         <span className={css.firstspan}>
-          <p>Інгрідієнти:</p>
+          <p>{t("ingredients")}</p>
           <p className={css.truncated}>
             {Array.isArray(recipe.ingredients) && recipe.ingredients.join(", ")}
           </p>
         </span>
         <span>
-          <p>Інструкція:</p>
+          <p>{t("instructions")}</p>
           <p
             className={`${css.truncated} ${
               !recipe.instructions || recipe.instructions.trim() === "" ? css.empty : ""
@@ -144,7 +144,7 @@ const RecipesItem = ({
 
         </span>
         <span>
-          <p>Примітки:</p>
+          <p>{t("notes")}</p>
           <p
             className={`${css.truncated} ${
               !recipe.notes || recipe.notes.trim() === "" ? css.empty : ""
